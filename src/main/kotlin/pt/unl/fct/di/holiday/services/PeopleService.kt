@@ -7,9 +7,19 @@ import pt.unl.fct.di.holiday.domain.Person
 @Service
 class PeopleService(val people: PeopleRepository) {
 
-    fun addPerson(name:String) {
-        people.save(Person(name))
+    fun addClient(name: String) {
+        people.save(Person(name, "Client"))
     }
 
-    fun existsPerson(name:String) = true
+    fun addOwner(name: String) {
+        people.save(Person(name, "Owner"))
+    }
+
+    fun addManager(name: String) {
+        people.save(Person(name, "Manager"))
+    }
+
+    fun existsPerson(name: String) = true
+
+    fun getUsers() = println(people.findAll())
 }

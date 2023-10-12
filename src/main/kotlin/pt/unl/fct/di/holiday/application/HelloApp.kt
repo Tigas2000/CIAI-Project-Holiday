@@ -15,8 +15,19 @@ class HelloApp(val people: PeopleService) {
             "Welcome back, $name!"
         else "Hello $name!"
 
-    fun addPerson(name:String) {
-        people.addPerson(name)
+    fun addClient(name:String) {
+        people.addClient(name)
+    }
 
+    fun addOwner(name:String) {
+        people.addOwner(name)
+    }
+
+    fun addManager(name:String) {
+        people.addManager(name)
+    }
+
+    fun getUsers() {
+        people.getUsers()
     }
 }

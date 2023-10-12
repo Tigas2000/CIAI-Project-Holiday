@@ -1,18 +1,39 @@
 GET http://localhost:8080/api/hello
 Content-Type: application/x-www-form-urlencoded
 
-name = jose
+name = joao
+
 ###
-POST http://localhost:8080/api/people
+
+GET http://localhost:8080/api/getUsers
+Content-Type: application/x-www-form-urlencoded
+
+###
+POST http://localhost:8080/api/addClient
 Content-Type: application/x-www-form-urlencoded
 
 name = jose
 
 ###
+
+POST http://localhost:8080/api/addManager
+Content-Type: application/x-www-form-urlencoded
+
+name = maria
+
+###
+POST http://localhost:8080/api/addOwner
+Content-Type: application/x-www-form-urlencoded
+
+name = joao
+
+###
+
 POST http://localhost:8080/api/hello
 Content-Type: application/x-www-form-urlencoded
 
 name = joao
+
 ###
 
 POST http://localhost:8080/api/hello
