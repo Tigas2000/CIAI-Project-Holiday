@@ -14,7 +14,7 @@ class HelloController(val app: HelloApp , val people: PeopleService) {
     fun hello() = app.sayHello("World")
 
     @RequestMapping("getUsers", method = [RequestMethod.GET])
-    fun getUsers() = app.getUsers()
+    fun getUsers(): MutableIterable<Person> {return people.getUsers()}
 
     @PostMapping("hello")
     fun helloName(@RequestParam name:String) = app.sayHello(name)
