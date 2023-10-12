@@ -19,7 +19,8 @@ class PeopleService(val people: PeopleRepository) {
         people.save(Person(name, "Manager"))
     }
 
-    fun existsPerson(name: String) = true
+    fun existsPerson(name:String) =
+            people.existsById(name)
 
     fun getUsers() = println(people.findAll())
 }

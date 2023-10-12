@@ -1,8 +1,6 @@
 GET http://localhost:8080/api/hello
 Content-Type: application/x-www-form-urlencoded
 
-name = joao
-
 ###
 
 GET http://localhost:8080/api/getUsers

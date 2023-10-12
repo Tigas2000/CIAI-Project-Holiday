@@ -7,13 +7,12 @@ import pt.unl.fct.di.holiday.services.PeopleService
 class HelloApp(val people: PeopleService) {
 
     fun sayHello(name:String) =
-        if(name == "")
-            "Hello, World!"
-        else if(name == "joao")
+        if (name == "Joao")
             "Hello, Master!"
         else if(people.existsPerson(name))
-            "Welcome back, $name!"
-        else "Hello $name!"
+            "Welcome back, ${name}!"
+        else
+            "Hello, ${name}!"
 
     fun addClient(name:String) {
         people.addClient(name)

@@ -1,24 +1,23 @@
 package pt.unl.fct.di.holiday.presentation
 
 import org.apache.coyote.Request
+import org.springframework.web.bind.annotation.*
 import pt.unl.fct.di.holiday.application.HelloApp
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RestController
+import pt.unl.fct.di.holiday.domain.Person
+import pt.unl.fct.di.holiday.services.PeopleService
 
 @RestController
 @RequestMapping("api")
-class HelloController(val app: HelloApp) {
+class HelloController(val app: HelloApp , val people: PeopleService) {
 
     @RequestMapping("hello", method = [RequestMethod.GET])
-    fun hello() = app.sayHello("")
+    fun hello() = app.sayHello("World")
 
     @RequestMapping("getUsers", method = [RequestMethod.GET])
     fun getUsers() = app.getUsers()
 
     @PostMapping("hello")
-    fun sayHello(name:String) = "Hello, $name!"
+    fun helloName(@RequestParam name:String) = app.sayHello(name)
 
     @PostMapping("addClient")
     fun addClient(name:String) = app.addClient(name)
