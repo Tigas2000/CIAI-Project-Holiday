@@ -1,6 +1,7 @@
 package pt.unl.fct.di.holiday.application
 
 import org.springframework.stereotype.Service
+import pt.unl.fct.di.holiday.domain.Person
 import pt.unl.fct.di.holiday.services.PeopleService
 
 @Service
@@ -26,7 +27,15 @@ class HelloApp(val people: PeopleService) {
         people.addManager(name)
     }
 
-    fun getUsers() {
-        people.getUsers()
+    fun getUsers(): String {
+        val it: MutableIterable<Person> = people.getUsers()
+        var res = ""
+        var i = 0
+        for (people in it) {
+            i += 1
+            res += "$i - Username: " + people.name + ", Role: " + people.role + ";\n"
+        }
+        res = "We have $i users: \n$res"
+        return res
     }
 }

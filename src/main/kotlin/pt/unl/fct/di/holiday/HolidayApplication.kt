@@ -7,5 +7,9 @@ import org.springframework.boot.runApplication
 class HolidayApplication
 
 fun main(args: Array<String>) {
-	runApplication<HolidayApplication>(*args)
+	try {
+		runApplication<HolidayApplication>(*args)
+	} catch (e: Exception) {
+		e.printStackTrace();
+	}
 }
