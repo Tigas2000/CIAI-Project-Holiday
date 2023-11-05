@@ -1,10 +1,13 @@
 package pt.unl.fct.di.holiday.presentation
 
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
+import pt.unl.fct.di.holiday.domain.PropertyDataAccessObject
 
-@Entity
-class PropertyDataTransferObject(){
-    @Id
-    var id: Long = TODO("initialize me")
+class PropertyDataTransferObject(
+    val id: Long,
+    val name: String,
+    val location: String,
+    val owner: String
+) {
+    constructor(property: PropertyDataAccessObject) : this(property.id, property.name,
+        property.location, property.owner.username)
 }

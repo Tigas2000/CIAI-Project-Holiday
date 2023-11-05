@@ -16,17 +16,16 @@ class InitData(
     fun addUsers() {
         users.saveAll(
             listOf(
-                UserDataAccessObject(0, RoleType.CLIENT, "client1", encode("pass")),
-                UserDataAccessObject(1, RoleType.CLIENT, "client2", encode("pass")),
-                UserDataAccessObject(2, RoleType.OWNER, "owner1", encode("pass")),
-                UserDataAccessObject(3, RoleType.MANAGER, "manager1", encode("pass"))
+                UserDataAccessObject(1, RoleType.CLIENT, "client1", encode("pass")),
+                UserDataAccessObject(2, RoleType.CLIENT, "client2", encode("pass")),
+                UserDataAccessObject(3, RoleType.OWNER, "owner1", encode("pass")),
+                UserDataAccessObject(4, RoleType.MANAGER, "manager1", encode("pass"))
             )
         )
     }
 
     @Transactional
     override fun run(vararg args: String?) {
-        val baseUrl = "http://localhost:8080"
         addUsers()
         users.findAll().forEach {
             println(it.getInfo())

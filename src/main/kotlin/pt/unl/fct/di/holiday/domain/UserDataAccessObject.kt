@@ -20,6 +20,7 @@ data class UserDataAccessObject(
     @Column(nullable = false)
     var password: String
 ){
+    constructor(): this(0, RoleType.CLIENT, "username", "password")
     constructor(un:String, pw:String) : this(0, RoleType.CLIENT, un, pw)
 
     fun getRole() : String{
@@ -39,7 +40,7 @@ data class UserDataAccessObject(
 
     @Override
     fun getInfo(): String {
-        return this::class.simpleName + "(id = $id , username = $username , password = $password , role = $role )"
+        return this::class.simpleName + "(id = $id , username = $username , password = $password , role = $role; )"
     }
 }
 

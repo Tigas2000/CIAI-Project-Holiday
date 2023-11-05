@@ -1,5 +1,12 @@
 package pt.unl.fct.di.holiday.domain
 
 import org.springframework.data.repository.CrudRepository
+import org.springframework.stereotype.Repository
+import java.util.*
 
-interface PropertyRepository : CrudRepository<PropertyDataAccessObject, String>
+@Repository
+interface PropertyRepository : CrudRepository<PropertyDataAccessObject, String> {
+
+    fun findByName(name: String): Optional<PropertyDataAccessObject>
+
+}
