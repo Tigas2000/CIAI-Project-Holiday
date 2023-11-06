@@ -1,5 +1,4 @@
 package pt.unl.fct.di.holiday.presentation
-
 import pt.unl.fct.di.holiday.domain.UserDataAccessObject
 
 class UserDataTransferObject(

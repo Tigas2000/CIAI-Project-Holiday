@@ -2,16 +2,21 @@ package pt.unl.fct.di.holiday
 
 import jakarta.transaction.Transactional
 import org.springframework.boot.CommandLineRunner
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Component
-import pt.unl.fct.di.holiday.domain.RoleType
-import pt.unl.fct.di.holiday.domain.UserDataAccessObject
-import pt.unl.fct.di.holiday.domain.UserRepository
-import springfox.documentation.spring.web.ControllerNamingUtils.encode
+import pt.unl.fct.di.holiday.domain.*
+import java.util.*
 
 @Component
 class InitData(
-    val users: UserRepository
+    val users: UserRepository,
+    val properties: PropertyRepository,
+    val events: EventRepository
 ) : CommandLineRunner {
+
+    fun encode(pw: String) : String {
+        return "{bcrypt}${BCryptPasswordEncoder().encode(pw)}"
+    }
 
     fun addUsers() {
         users.saveAll(
@@ -24,10 +29,38 @@ class InitData(
         )
     }
 
+    fun addProperties() {
+        properties.saveAll(
+            listOf(
+                PropertyDataAccessObject(1, "Casa_da_praia", "Portimao", users.findByUsername("owner1").get()),
+                PropertyDataAccessObject(2, "Casa_do_mato", "Beja", users.findByUsername("owner1").get())
+            )
+        )
+    }
+
+    fun addEvents() {
+        events.saveAll(
+            listOf(
+                EventDataAccessObject(1, EventType.UNDER_CONSIDERATION, properties.findByName("Casa_da_praia").get(),
+                    users.findByUsername("client1").get(), Date(123, 11, 12), 2),
+                EventDataAccessObject(2, EventType.BOOKED, properties.findByName("Casa_da_praia").get(),
+                    users.findByUsername("client2").get(), Date(123, 11, 20), 4),
+                )
+            )
+    }
+
     @Transactional
     override fun run(vararg args: String?) {
         addUsers()
         users.findAll().forEach {
+            println(it.getInfo())
+        }
+        addProperties()
+        properties.findAll().forEach {
+            println(it.getInfo())
+        }
+        addEvents()
+        events.findAll().forEach {
             println(it.getInfo())
         }
     }

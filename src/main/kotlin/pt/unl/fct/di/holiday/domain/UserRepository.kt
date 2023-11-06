@@ -9,5 +9,4 @@ interface UserRepository: CrudRepository<UserDataAccessObject, Long> {
 
     fun findByUsername(username: String): Optional<UserDataAccessObject>
 
-
 }

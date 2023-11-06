@@ -1,8 +1,8 @@
 package pt.unl.fct.di.holiday.presentation
 
-import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import pt.unl.fct.di.holiday.domain.RoleType
 import pt.unl.fct.di.holiday.domain.UserDataAccessObject
 import pt.unl.fct.di.holiday.services.UserService
 
@@ -10,7 +10,11 @@ import pt.unl.fct.di.holiday.services.UserService
 @RequestMapping("/users")
 class UserController(val userService: UserService) : UserAPI {
 
-    @GetMapping("/list")
+
+    override fun addUser(id: Long, role: String, username: String, password: String) {
+        userService.addUser(UserDataAccessObject(id, RoleType.CLIENT, username, password))
+    }
+
     override fun getAll(): Iterable<UserDataAccessObject> {
         return userService.getAllUsers()
     }
