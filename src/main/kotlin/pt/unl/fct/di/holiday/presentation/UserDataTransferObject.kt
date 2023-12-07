@@ -8,4 +8,5 @@ class UserDataTransferObject(
     val password: String
 ){
     constructor(user: UserDataAccessObject) : this(user.id, user.role.toString(), user.username, user.password)
+
 }

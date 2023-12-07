@@ -20,6 +20,7 @@ class InitData(
 
     fun addUsers() {
         users.saveAll(
+
             listOf(
                 UserDataAccessObject(1, RoleType.CLIENT, "client1", encode("pass")),
                 UserDataAccessObject(2, RoleType.CLIENT, "client2", encode("pass")),
@@ -51,7 +52,7 @@ class InitData(
 
     @Transactional
     override fun run(vararg args: String?) {
-        addUsers()
+        /*addUsers()
         users.findAll().forEach {
             println(it.getInfo())
         }
@@ -62,7 +63,7 @@ class InitData(
         addEvents()
         events.findAll().forEach {
             println(it.getInfo())
-        }
+        }*/
     }
 
 

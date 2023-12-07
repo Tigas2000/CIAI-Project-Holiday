@@ -4,6 +4,7 @@ import jakarta.persistence.*
 
 
 @Entity
+@Table(name = "PROPERTIES")
 data class PropertyDataAccessObject(
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Long,

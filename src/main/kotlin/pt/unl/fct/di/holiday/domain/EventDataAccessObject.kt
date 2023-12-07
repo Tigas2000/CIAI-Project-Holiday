@@ -9,6 +9,7 @@ enum class EventType {
 }
 
 @Entity
+@Table(name = "EVENTS")
 class EventDataAccessObject(
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Long,

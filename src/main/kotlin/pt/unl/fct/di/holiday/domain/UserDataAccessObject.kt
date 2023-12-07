@@ -8,6 +8,7 @@ enum class RoleType {
 }
 
 @Entity
+@Table(name = "USERS")
 data class UserDataAccessObject(
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Long,
@@ -37,6 +38,10 @@ data class UserDataAccessObject(
     }
 
     override fun hashCode(): Int = javaClass.hashCode()
+
+    fun verifyIfPassword(verifying: String): Boolean {
+        return password.equals(verifying)
+    }
 
     @Override
     fun getInfo(): String {
