@@ -1,10 +1,9 @@
-import React,{ useState } from "react";
+import React, { useState, useEffect } from "react";
 import { default as ModalProvider } from "react-modal";
 import { Button, Img, Input, Line, Text } from "components";
 import CreateAccountModal from "../../modals/CreateAccount";
 
 const LogInModal = (props) => {
-
   const [isCreateAccountModalOpen, setIsCreateAccountModalOpen] = useState(false);
 
   const openCreateAccountModal = () => {
@@ -14,6 +13,10 @@ const LogInModal = (props) => {
   const closeCreateAccountModal = () => {
     setIsCreateAccountModalOpen(false);
   };
+
+  useEffect(() => {
+    closeCreateAccountModal();
+  }, []);
 
   return (
     <ModalProvider
@@ -88,7 +91,9 @@ const LogInModal = (props) => {
                 Don’t have an account?
               </Text>
               <Text
-                onClick={() => {openCreateAccountModal();}}
+                onClick={() => {
+                  openCreateAccountModal();
+                }}
                 className="cursor-pointer text-gray-900 text-xl tracking-[-0.40px] w-auto"
                 size="txtManropeSemiBold20Gray900"
               >

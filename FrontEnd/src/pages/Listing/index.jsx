@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   Button,
@@ -29,8 +29,8 @@ const dropdownlargeOneOptionsList = [
 ];
 
 const ListingPage = () => {
+
   const landingPageCardPropList = [
-    {},
     { image: "images/img_image_1.png" },
     { image: "images/img_image_3.png" },
     { image: "images/img_image_4.png" },
@@ -38,7 +38,42 @@ const ListingPage = () => {
     { image: "images/img_image_2.png" },
     { image: "images/img_image_1.png" },
     { image: "images/img_image_3.png" },
+    { image: "images/img_image_2.png" },
+    { image: "images/img_image_4.png" },
+    { image: "images/img_image_5.png" },
+    { image: "images/img_image_2.png" },
+    { image: "images/img_image_1.png" },
+    { image: "images/img_image_5.png" },
+    { image: "images/img_image_3.png" },
+    { image: "images/img_image_4.png" },
+    { image: "images/img_image_5.png" },
+    { image: "images/img_image_2.png" },
+    { image: "images/img_image_1.png" },
+    { image: "images/img_image_3.png" },
+    { image: "images/img_image_3.png" },
+    { image: "images/img_image_4.png" },
+    { image: "images/img_image_5.png" },
+    { image: "images/img_image_2.png" },
+    { image: "images/img_image_1.png" },
+    { image: "images/img_image_3.png" },
   ];
+
+  const propertiesPerPage = 9;
+  const totalItems = landingPageCardPropList.length;
+  const totalPages = Math.ceil(totalItems / propertiesPerPage);
+
+  let [currentPage, setCurrentPage] = useState(1);
+
+  let startIndex = (currentPage - 1) * propertiesPerPage;
+  let endIndex = startIndex + propertiesPerPage;
+  const [displayedProperties, setDisplayedProperties] = useState(landingPageCardPropList.slice(0, propertiesPerPage));
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    startIndex = (page - 1) * propertiesPerPage;
+    endIndex = startIndex + propertiesPerPage;
+    setDisplayedProperties(landingPageCardPropList.slice(startIndex, endIndex));
+  };
 
   return (
     <>
@@ -156,7 +191,7 @@ const ListingPage = () => {
             <div className="flex flex-col md:gap-10 gap-[60px] items-center justify-start max-w-[1200px] mx-auto w-full">
               <div className="flex flex-col items-start justify-start w-full">
                 <div className="md:gap-5 gap-6 grid sm:grid-cols-1 md:grid-cols-2 grid-cols-3 justify-center min-h-[auto] w-full">
-                  {landingPageCardPropList.map((props, index) => (
+                  {displayedProperties.map((props, index) => (
                     <React.Fragment key={`LandingPageCard${index}`}>
                       <LandingPageCard
                         className="flex flex-1 flex-col h-[512px] md:h-auto items-start justify-start w-full"
@@ -167,23 +202,22 @@ const ListingPage = () => {
                 </div>
               </div>
               <div className="flex sm:flex-col flex-row gap-5 items-center justify-between w-full">
-                <div className="flex flex-row gap-[5px] items-start justify-start w-auto">
-                  <Button className="border border-gray-700 border-solid cursor-pointer font-semibold h-12 py-[13px] rounded-[10px] text-base text-center text-gray-900 w-12">
-                    1
+              <div className="flex sm:flex-col flex-row gap-[5px] items-start justify-start w-auto">
+                {Array.from({ length: totalPages }, (_, ind) => (
+                  <Button
+                    key={`pageButton${ind + 1}`}
+                    className={`border ${
+                      currentPage === ind + 1
+                      
+                        ? "border-gray-700"
+                        : "border-bluegray-102"
+                    } border-solid cursor-pointer font-semibold h-12 py-[13px] rounded-[10px] text-base text-center text-gray-900 w-12`}
+                    onClick={() => handlePageChange(ind + 1)}
+                  >
+                    {ind + 1}
                   </Button>
-                  <Button className="border border-bluegray-102 border-solid cursor-pointer font-semibold h-12 py-[13px] rounded-[10px] text-base text-center text-gray-900 w-12">
-                    2
-                  </Button>
-                  <Button className="border border-bluegray-102 border-solid cursor-pointer font-semibold h-12 py-[13px] rounded-[10px] text-base text-center text-gray-900 w-12">
-                    3
-                  </Button>
-                  <Button className="border border-bluegray-102 border-solid cursor-pointer font-semibold h-12 py-[13px] rounded-[10px] text-base text-center text-gray-900 w-12">
-                    4
-                  </Button>
-                  <Button className="border border-bluegray-102 border-solid cursor-pointer font-semibold h-12 py-[13px] rounded-[10px] text-base text-center text-gray-900 w-12">
-                    5
-                  </Button>
-                </div>
+                ))}
+              </div>
                 <Button
                   className="border border-bluegray-102 border-solid cursor-pointer flex items-center justify-center min-w-[134px] px-[17px] py-[13px] rounded-[10px]"
                   rightIcon={
