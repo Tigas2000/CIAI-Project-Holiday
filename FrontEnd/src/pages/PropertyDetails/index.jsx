@@ -1,15 +1,24 @@
-import React from "react";
-
+import React, { useState, useEffect } from "react";
 import { Button, GoogleMap, Img, Input, List, Text } from "components";
 import LandingPageCard from "components/LandingPageCard";
 import LandingPageHeader from "components/LandingPageHeader";
+import Calendar from "modals/CalendarModal";
 
-const PropertyDetailsPage = () => {
-  const landingPageCardPropList = [
-    {},
-    { image: "images/img_image_1.png" },
-    { image: "images/img_image_2.png" },
-  ];
+const PropertyDetailsPage = ({ match }) => {
+  const [apartment, setApartment] = useState({});
+  const [reviews, setReviews] = useState([]);
+  const [availability, setAvailability] = useState([]);
+  const [showCalendar, setShowCalendar] = useState(false);
+
+  const openCalendar = () => {
+    // Fetch availability here and update the state
+    setShowCalendar(true);
+  };
+
+  const closeCalendar = () => {
+    setShowCalendar(false);
+  };
+
 
   return (
     <>
@@ -66,12 +75,15 @@ const PropertyDetailsPage = () => {
                           >
                             Trovilla Plan in Sereno Canyon - Estate Collection
                             by Toll Brothers
+                            {apartment.name}
+                            
                           </Text>
                           <Text
                             className="text-gray-900 text-xl tracking-[-0.40px] w-full"
                             size="txtManropeSemiBold20Gray900"
                           >
                             2861 62nd Ave, Oakland, CA 94605
+                            {apartment.location}
                           </Text>
                         </div>
                         <div className="flex sm:flex-col flex-row gap-4 items-start justify-start md:pr-10 sm:pr-5 pr-[180px] w-full">
@@ -121,16 +133,6 @@ const PropertyDetailsPage = () => {
                           className="leading-[180.00%] max-w-[712px] md:max-w-full text-gray-600 text-lg"
                           size="txtManropeRegular18Gray600"
                         >
-                          <>
-                            A slider is great way to display a slideshow
-                            featuring images or videos, usually on your
-                            homepage.Adding sliders to your site is no longer
-                            difficult. You don’t have to know coding anymore.
-                            Just use a slider widget and it will automatically
-                            insert the slider on your web page.So, the Elementor
-                            slider would be a great tool to work with when
-                            building a WordPress site.
-                          </>
                         </Text>
                       </div>
                     </div>
@@ -367,23 +369,25 @@ const PropertyDetailsPage = () => {
                         className="sm:text-2xl md:text-[26px] text-[28px] text-gray-900 tracking-[-0.56px] w-full"
                         size="txtManropeExtraBold28"
                       >
-                        Request for Visit
+                        Rent Apartment
                       </Text>
                       <div className="flex flex-col gap-3 h-[440px] md:h-auto items-start justify-start w-full">
-                        <Input
-                          name="textfieldlarge"
-                          placeholder="Full Name"
-                          className="font-semibold p-0 placeholder:text-gray-600 sm:pr-5 text-gray-600 text-left text-lg w-full"
-                          wrapClassName="bg-white-A700 border border-bluegray-100 border-solid flex pl-4 pr-[35px] py-[17px] rounded-[10px] w-full"
-                          type="text"
-                          prefix={
-                            <Img
-                              className="mt-auto mb-px h-6 mr-3.5"
-                              src="images/img_user.svg"
-                              alt="user"
-                            />
-                          }
-                        ></Input>
+                        <Button
+                          onClick={openCalendar}
+                          className="bg-gray-900 cursor-pointer font-semibold py-[17px] rounded-[10px] text-base text-center text-white-A700 w-full"
+                        >
+                          Check Availability
+                        </Button>
+
+                        {/* Calendar Modal/Popover */}
+                        {showCalendar && (
+                          <div className="modal-overlay" onClick={closeCalendar}>
+                            <div className="modal">
+                              <Calendar availability={availability} />
+                            </div>
+                          </div>
+                        )}
+
                         <Input
                           name="textfieldlarge_One"
                           placeholder="Email Address"
@@ -435,9 +439,6 @@ const PropertyDetailsPage = () => {
                         </div>
                       </div>
                     </div>
-                    <Button className="bg-gray-900 cursor-pointer font-semibold py-[17px] rounded-[10px] text-base text-center text-white-A700 w-full">
-                      Send Request
-                    </Button>
                   </div>
                 </div>
               </div>

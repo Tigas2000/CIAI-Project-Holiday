@@ -183,3 +183,44 @@ ul li a{
   background: #6b6b6b;
   border-radius: 10px;
 }
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  max-width: 300px;
+  margin: auto;
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  font-weight: bold;
+}
+
+.day {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.white {
+  background-color: white;
+}
+
+.green {
+  background-color: green;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.orange {
+  background-color: orange;
+}
+
+.red {
+  background-color: red;
+}
