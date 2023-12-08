@@ -22,5 +22,5 @@ class PeopleService(val people: PeopleRepository) {
     fun existsPerson(name:String) =
             people.existsById(name)
 
-    fun getUsers(): MutableIterable<Person> {return people.findAll()}
+    fun getUsers(): MutableIterable<Person> = people.findAll()
 }
