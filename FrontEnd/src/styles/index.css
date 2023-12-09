@@ -244,8 +244,9 @@ ul li a{
 
 
 .hovered {
-  background-color: rgb(107, 117, 119) !important; /* Change this to your desired hover background color */
+  background-color: rgb(107, 117, 119) !important;
 }
+
 
 .white {
   background-color: white;

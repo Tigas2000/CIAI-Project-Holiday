@@ -28,6 +28,11 @@ const getColor = (day) => {
   return 'green';
 };
 
+const getAvailability = (day) => {
+  // return availability.find(item => item.date === day);
+  return 'Available';
+}
+
 const CalendarModal = (props) => {
   const [isCalendarOpen, setCalendarOpen] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -64,6 +69,7 @@ const CalendarModal = (props) => {
             key={index}
             day={day}
             color={getColor(day)} // Need to pass the actual availability to get the color
+            availability={getAvailability(day)}
           />
         ))}
       </div>
@@ -110,7 +116,7 @@ const CalendarModal = (props) => {
       }}
       {...props}
     >
-      <div>
+      <div className="full-calendar">
         
         {/* Overlay for handling clicks outside the calendar */}
         {/*isCalendarOpen && (

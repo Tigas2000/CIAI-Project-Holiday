@@ -281,82 +281,75 @@ const PropertyDetailsPage = ({ match }) => {
                         className="sm:text-2xl md:text-[26px] text-[28px] text-gray-900 tracking-[-0.56px] w-full"
                         size="txtManropeExtraBold28"
                       >
-                        Agent Information
+                        Apartment Reviews
                       </Text>
-                      <div className="flex flex-row gap-6 items-center justify-start w-full">
-                        <Img
-                          className="h-[150px] md:h-auto object-cover rounded-[10px] w-[150px]"
-                          src="images/img_rectangle5599.png"
-                          alt="rectangle5599"
-                        />
-                        <div className="flex flex-col gap-[3px] items-start justify-start w-auto">
+                      <div className="flex flex-col gap-[3px] items-start justify-start w-auto">
+                        <Text
+                          className="text-gray-900 text-xl tracking-[-0.40px] w-auto"
+                          size="txtManropeSemiBold20Gray900"
+                        >
+                          Bruno Fernandes
+                        </Text>
+                        <div className="flex flex-row gap-3.5 items-center justify-start w-full">
+                          <div className="flex flex-row gap-1 items-start justify-start w-auto">
+                            <Img
+                              className="h-4 w-4"
+                              src="images/img_star.svg"
+                              alt="star"
+                            />
+                            <Img
+                              className="h-4 w-4"
+                              src="images/img_star.svg"
+                              alt="star_One"
+                            />
+                            <Img
+                              className="h-4 w-4"
+                              src="images/img_star.svg"
+                              alt="star_Two"
+                            />
+                            <Img
+                              className="h-4 w-4"
+                              src="images/img_star.svg"
+                              alt="star_Three"
+                            />
+                            <Img
+                              className="h-4 w-4"
+                              src="images/img_star_gray_600.svg"
+                              alt="star_Four"
+                            />
+                          </div>
                           <Text
-                            className="text-gray-900 text-xl tracking-[-0.40px] w-auto"
-                            size="txtManropeSemiBold20Gray900"
+                            className="text-base text-gray-900 w-auto"
+                            size="txtManropeSemiBold16"
                           >
-                            Bruno Fernandes
+                            4 review
                           </Text>
-                          <div className="flex flex-row gap-3.5 items-center justify-start w-full">
-                            <div className="flex flex-row gap-1 items-start justify-start w-auto">
-                              <Img
-                                className="h-4 w-4"
-                                src="images/img_star.svg"
-                                alt="star"
-                              />
-                              <Img
-                                className="h-4 w-4"
-                                src="images/img_star.svg"
-                                alt="star_One"
-                              />
-                              <Img
-                                className="h-4 w-4"
-                                src="images/img_star.svg"
-                                alt="star_Two"
-                              />
-                              <Img
-                                className="h-4 w-4"
-                                src="images/img_star.svg"
-                                alt="star_Three"
-                              />
-                              <Img
-                                className="h-4 w-4"
-                                src="images/img_star_gray_600.svg"
-                                alt="star_Four"
-                              />
-                            </div>
-                            <Text
-                              className="text-base text-gray-900 w-auto"
-                              size="txtManropeSemiBold16"
-                            >
-                              4 review
-                            </Text>
-                          </div>
-                          <div className="flex flex-row gap-2.5 items-center justify-start w-full">
-                            <Img
-                              className="h-5 w-5"
-                              src="images/img_mail_gray_600.svg"
-                              alt="mail"
-                            />
-                            <Text
-                              className="text-base text-gray-600 w-auto"
-                              size="txtManropeMedium16"
-                            >
-                              bruno@relasto .com
-                            </Text>
-                          </div>
-                          <div className="flex flex-row gap-2.5 items-center justify-start w-full">
-                            <Img
-                              className="h-5 w-5"
-                              src="images/img_call.svg"
-                              alt="call"
-                            />
-                            <Text
-                              className="text-base text-gray-600 w-auto"
-                              size="txtManropeMedium16"
-                            >
-                              +65 0231 965 965
-                            </Text>
-                          </div>
+                        </div>
+                        <div className="flex flex-row gap-2.5 items-center justify-start w-full">
+                          <Img
+                            className="h-5 w-5"
+                            src="images/img_mail_gray_600.svg"
+                            alt="mail"
+                          />
+                          <Text
+                            className="text-base text-gray-600 w-auto"
+                            size="txtManropeMedium16"
+                          >
+                            bruno@relasto .com
+                          </Text>
+                        </div>
+                        <div className="flex flex-row gap-2.5 items-center justify-start w-full">
+                          <Img
+                            className="h-5 w-5"
+                            src="images/img_call.svg"
+                            alt="call"
+                          />
+                          <Text
+                            className="text-base text-gray-600 w-auto"
+                            size="txtManropeMedium16"
+                          >
+                            +65 0231 965 965
+                          </Text>
                         </div>
                       </div>
                     </div>
