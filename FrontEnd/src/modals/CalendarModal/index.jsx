@@ -35,24 +35,24 @@ const getAvailability = (day) => {
 
 const CalendarModal = (props) => {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [startDay, setStartDay] = useState(null);
-  const [finalDay, setFinalDay] = useState(null);
-  const [hoveredDay, setHoveredDay] = useState(null);
+  const [startDate, setStartDate] = useState(null);
+  const [finalDate, setFinalDate] = useState(null);
+  const [hoveredDate, setHoveredDate] = useState(null);
 
-  const handleDayClick = (day) => {
-    if (!startDay) {
-      setStartDay(day);
-    } else if (!finalDay) {
-      setFinalDay(day);
+  const handleDateClick = (selectedDate) => {
+    if (!startDate) {
+      setStartDate(selectedDate);
+    } else if (!finalDate) {
+      setFinalDate(selectedDate);
     } else {
-      console.log(`Selected range: ${startDay} to ${finalDay}`);
-      setStartDay(null);
-      setFinalDay(null);
+      console.log(`Selected range: ${startDate} to ${finalDate}`);
+      setStartDate(null);
+      setFinalDate(null);
     }
   };
 
-  const onHover = (day) => {
-    setHoveredDay(day);
+  const onHover = (date) => {
+    setHoveredDate(date);
   };
 
   const getDaysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
@@ -72,18 +72,21 @@ const CalendarModal = (props) => {
 
     return rows.map((row, rowIndex) => (
       <div key={rowIndex} className="week-row">
-        {row.map((day, index) => (
-          <CalendarDay
-            key={index}
-            day={day}
-            color={getColor(day)} // Need to pass the actual availability to get the color
-            availability={getAvailability(day)}
-            onClick={() => handleDayClick(day)}
-            onHover={() => onHover(day)}
-            selectedRange={{start:startDay, final:finalDay}}
-            hoveredRange={{start:startDay, final:hoveredDay}}
-          />
-        ))}
+        {row.map((day, index) => {   
+          const thisDate = new Date(currentYear, currentMonth, day);      
+          return (
+            <CalendarDay
+              key={index}
+              date={thisDate}
+              color={getColor(thisDate)} // Pass the actual date to getColor
+              availability={getAvailability(thisDate)} // Pass the actual date to getAvailability
+              onClick={() => handleDateClick(thisDate)}
+              onHover={() => onHover(thisDate)}
+              selectedRange={{ start: startDate, final: finalDate }}
+              hoveredRange={{ start: startDate, final: hoveredDate }}
+            />
+          );
+        })}
       </div>
     ));
   };
@@ -104,6 +107,10 @@ const CalendarModal = (props) => {
     setCurrentDate(newDate);
   };
 
+  const bookSelectedDates = () => {
+    
+    console.log('Booking selected dates:', startDate, 'to', finalDate);
+  };
 
   return (
     <ModalProvider
@@ -129,6 +136,11 @@ const CalendarModal = (props) => {
         <div className="calendar">
           <div className="week-row">{renderWeekdays()}</div>
           {renderDays()}
+        </div>
+        <div className="book-button-container">
+          <Button onClick={bookSelectedDates} className="book-button">
+            Book Selected Dates
+          </Button>
         </div>
       </div>
     </ModalProvider>
