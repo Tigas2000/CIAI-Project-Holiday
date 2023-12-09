@@ -9,11 +9,19 @@ const CalendarModal = (props) => {
   const [finalDate, setFinalDate] = useState(null);
   const [hoveredDate, setHoveredDate] = useState(null);
   const [bookedDays, setBookedDays] = useState([]);
+  const [isBookedSelection, setIsBookedSelection] = useState(false);
+
+  const handleBookButtonClick = () => {
+    if (isBookedSelection) {
+      unbookSelectedDates();
+    } else {
+      bookSelectedDates();
+    }
+  };
   
   const getColor = (date) => {
-    /* const dayAvailability = availability.find(item => item.date === day);
-  
-    if (dayAvailability) {
+    /*
+      if (dayAvailability) {
       switch (dayAvailability.status) {
         case 'available':
           return 'green';
@@ -23,10 +31,10 @@ const CalendarModal = (props) => {
           return 'orange';
         case 'occupied':
           return 'red';
-        case 'awaiting_review':
-          return 'orange';
+        case 'red':
+          return 'black';
         case 'closed':
-          return 'yellow';
+          return 'black';
         default:
           return 'black';
       }
@@ -63,6 +71,19 @@ const CalendarModal = (props) => {
       setStartDate(selectedDate);
     } else if (!finalDate) {
       setFinalDate(selectedDate);
+      const selectedDays = [];
+      
+      // Iterate over the days between startDate and selectedDate
+      let currentDate = new Date(startDate);
+      while (currentDate <= selectedDate) {
+        selectedDays.push(new Date(currentDate));
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
+  
+      const isBookedSelection = selectedDays.some((day) =>
+        bookedDays.some((bookedDate) => isSameDay(bookedDate, day))
+      );
+      setIsBookedSelection(isBookedSelection);
     } else {
       console.log(`Selected range: ${startDate} to ${finalDate}`);
       setStartDate(null);
@@ -157,6 +178,24 @@ const CalendarModal = (props) => {
     }
   };
 
+  const unbookSelectedDates = () => {
+    if (startDate && finalDate) {
+      const startDay = startDate.getDate();
+      const endDay = finalDate.getDate();
+      const unbookedDays = Array.from({ length: Math.abs(endDay - startDay) + 1 }, (_, index) =>
+        startDay < endDay ? startDay + index : startDay - index
+      );
+  
+      // Remove the unbooked days from the bookedDays state
+      const updatedBookedDays = bookedDays.filter((bookedDate) => {
+        const day = bookedDate.getDate();
+        return !unbookedDays.includes(day);
+      });
+  
+      setBookedDays(updatedBookedDays);
+      console.log('Unbooking selected dates:', startDate, 'to', finalDate);
+    }
+  };
 
   return (
     <ModalProvider
@@ -183,8 +222,8 @@ const CalendarModal = (props) => {
         </div>
       </div>
       <div className="book-button-container">
-        <Button onClick={bookSelectedDates} className="book-button">
-          Book Selected Dates
+        <Button onClick={handleBookButtonClick} className="book-button">
+          {isBookedSelection ? 'Remove Selected Reservations' : 'Book Selected Dates'}
         </Button>
         <div className="number-ppl-booking-container">
           <Input
