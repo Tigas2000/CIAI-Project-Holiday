@@ -193,31 +193,55 @@ ul li a{
 .week-row {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 5px;
   font-weight: bold;
 }
 
 .weekday {
   display: flex;
   grid-template-columns: repeat(7, 1fr);
-  font-weight: bold;
+  font-weight: bolder;
   width: 150px;
   height: 50px;
   padding: 10px;
-  border: 1px solid #ddd;
-  text-align: center;
-  background-color: rgba(173, 172, 172, 0.658);
+  border: 2px solid #000000;
+  color: #ddd;
+  background-color: rgba(0, 0, 0, 0.5);
   margin-bottom: 10px;
-  border-radius: 8px;
+  border-radius: 15px;
+  font-size: larger;
 }
 
 .day {
-  padding: 10px;
+  padding: 5px;
   border: 1px solid #ddd;
   text-align: center;
   transition: background-color 0.3s ease;
   border-radius: 8px;
 }
+
+.month-text {
+  color: white;
+  font-size: 33px;
+  font-weight: bold;
+  position: fixed;
+  font-size: 46px;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1; /* Set a higher z-index to ensure it's above the calendar */
+}
+
+.month-button {
+  background-color: #000000;
+  color: rgb(255, 255, 255);
+  border: none;
+  padding: 15px;
+  cursor: pointer;
+  border-radius: 25px;
+  margin-right: 15px;
+  margin-left: 15px;
+}
+
 
 .hovered {
   background-color: rgb(107, 117, 119) !important; /* Change this to your desired hover background color */
