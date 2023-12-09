@@ -3,7 +3,7 @@ import { default as ModalProvider } from "react-modal";
 import { Button, Img, Input, Line, Text } from "components";
 import CalendarDay from "components/CalendarDay";
 
-const getColor = (day) => {
+const getColor = (date) => {
   /* const dayAvailability = availability.find(item => item.date === day);
 
   if (dayAvailability) {
@@ -57,13 +57,14 @@ const CalendarModal = (props) => {
   };
 
   const getDaysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth();
+  const daysInMonth = getDaysInMonth(currentYear, currentMonth);
+
+  const days = Array.from({ length: daysInMonth }, (_, index) => index + 1);
 
   const renderDays = () => {
-    const currentYear = currentDate.getFullYear();
-    const currentMonth = currentDate.getMonth();
-    const daysInMonth = getDaysInMonth(currentYear, currentMonth);
-
-    const days = Array.from({ length: daysInMonth }, (_, index) => index + 1);
+    
 
     // Push the days to rows
     const rows = [];
@@ -109,8 +110,18 @@ const CalendarModal = (props) => {
   };
 
   const bookSelectedDates = () => {
-    
-    console.log('Booking selected dates:', startDate, 'to', finalDate);
+    // Check if any selected date is not available
+    const isAnyDateNotAvailable = Array.from({ length: days.length }, (_, index) => index + 1)
+      .filter((day) => {
+        const selectedDate = new Date(currentYear, currentMonth, day);
+        return ((selectedDate >= startDate && selectedDate <= finalDate) || (selectedDate <= startDate && selectedDate >= finalDate)) && getAvailability(selectedDate) !== 'Available';
+      }).length > 0;
+
+    if (!isAnyDateNotAvailable) {
+      console.log('Booking selected dates:', startDate, 'to', finalDate);
+    } else {
+      console.log('Some selected dates are not available. Cannot book.');
+    }
   };
 
   return (
@@ -118,18 +129,16 @@ const CalendarModal = (props) => {
       appElement={document.getElementById("root")}
       className="m-auto !w-[34%] flex justify-center items-center"
       overlayClassName="bg-gray-900_cc fixed flex h-full inset-y-[0] w-full"
-
       {...props}
     >
       <div className="full-calendar">
-
         <div className="calendar-header">
           <div className="month-text">
-            <Button onClick={() => {changeMonth(-1); }} className="month-button">
+            <Button onClick={() => { changeMonth(-1); }} className="month-button">
               Previous Month
             </Button>
             {currentDate.toLocaleString("default", { month: "long" })} {currentDate.getFullYear()}
-            <Button onClick={() => {changeMonth(1); }} className="month-button">
+            <Button onClick={() => { changeMonth(1); }} className="month-button">
               Next Month
             </Button>
           </div>
@@ -138,13 +147,24 @@ const CalendarModal = (props) => {
           <div className="week-row">{renderWeekdays()}</div>
           {renderDays()}
         </div>
-        <div className="book-button-container">
-          <Button onClick={bookSelectedDates} className="book-button">
-            Book Selected Dates
-          </Button>
+      </div>
+      <div className="book-button-container">
+        <Button onClick={bookSelectedDates} className="book-button">
+          Book Selected Dates
+        </Button>
+        <div className="number-ppl-booking-container">
+          <Input
+            name="textfieldlarge_One"
+            placeholder="Number of People"
+            className="font-semibold p-0 placeholder:text-gray-600 sm:pr-5 text-gray-600 text-left text-lg w-full"
+            wrapClassName="bg-white-A700 border border-bluegray-100 border-solid flex pl-4 pr-[35px] py-[17px] rounded-[10px] w-full"
+            type="number-people"
+          ></Input>
         </div>
       </div>
+      
     </ModalProvider>
   );
 };
+
 export default CalendarModal;
