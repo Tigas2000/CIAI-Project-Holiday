@@ -34,18 +34,26 @@ const getAvailability = (day) => {
 }
 
 const CalendarModal = (props) => {
-  const [isCalendarOpen, setCalendarOpen] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
-  /*const [calendarClosedOnce, setCalendarClosedOnce] = useState(false);
-  const [clickInsideHeader, setClickInsideHeader] = useState(true)
+  const [startDay, setStartDay] = useState(null);
+  const [finalDay, setFinalDay] = useState(null);
+  const [hoveredDay, setHoveredDay] = useState(null);
 
-  useEffect(() => {
-    // Reset the month when the calendar is closed for the first time
-    if (!isCalendarOpen && calendarClosedOnce) {
-      setCurrentDate(new Date());
-      setCalendarClosedOnce(false); // Reset the flag for the next time the calendar is opened
+  const handleDayClick = (day) => {
+    if (!startDay) {
+      setStartDay(day);
+    } else if (!finalDay) {
+      setFinalDay(day);
+    } else {
+      console.log(`Selected range: ${startDay} to ${finalDay}`);
+      setStartDay(null);
+      setFinalDay(null);
     }
-  }, [isCalendarOpen, calendarClosedOnce]); */
+  };
+
+  const onHover = (day) => {
+    setHoveredDay(day);
+  };
 
   const getDaysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
 
@@ -70,6 +78,10 @@ const CalendarModal = (props) => {
             day={day}
             color={getColor(day)} // Need to pass the actual availability to get the color
             availability={getAvailability(day)}
+            onClick={() => handleDayClick(day)}
+            onHover={() => onHover(day)}
+            selectedRange={{start:startDay, final:finalDay}}
+            hoveredRange={{start:startDay, final:hoveredDay}}
           />
         ))}
       </div>
@@ -92,56 +104,24 @@ const CalendarModal = (props) => {
     setCurrentDate(newDate);
   };
 
-  /* const handleOverlayClick = (e) => {
-    // Check if the click is outside the calendar
-    if (isCalendarOpen) {
-      setClickInsideHeader(e.target.closest('.calendar-header'));
-  
-      // Avoid triggering close action if the click is inside the calendar, month text, or buttons
-      if (!isClickInsideHeader) {
-        setCalendarOpen(false);
-        setCalendarClosedOnce(true);
-      }
-    }
-  }; */
 
   return (
     <ModalProvider
       appElement={document.getElementById("root")}
       className="m-auto !w-[34%] flex justify-center items-center"
       overlayClassName="bg-gray-900_cc fixed flex h-full inset-y-[0] w-full"
-      onRequestClose={() => {
-        // The onRequestClose prop might not be triggered on clicking outside
-        // Add any additional close logic here if needed
-      }}
+
       {...props}
     >
       <div className="full-calendar">
-        
-        {/* Overlay for handling clicks outside the calendar */}
-        {/*isCalendarOpen && (
-          <div
-            className="overlay"
-            onClick={handleOverlayClick}
-            style={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              background: 'rgba(0, 0, 0, 0.3)',
-              zIndex: 9999,
-            }}
-          />
-          )*/}
 
         <div className="calendar-header">
           <div className="month-text">
-            <Button onClick={() => { setCalendarOpen(true); changeMonth(-1); }} className="month-button">
+            <Button onClick={() => {changeMonth(-1); }} className="month-button">
               Previous Month
             </Button>
             {currentDate.toLocaleString("default", { month: "long" })} {currentDate.getFullYear()}
-            <Button onClick={() => { setCalendarOpen(true); changeMonth(1); }} className="month-button">
+            <Button onClick={() => {changeMonth(1); }} className="month-button">
               Next Month
             </Button>
           </div>
