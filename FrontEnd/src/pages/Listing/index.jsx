@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect  } from "react";
+
 
 import {
   Button,
@@ -11,6 +12,7 @@ import {
 } from "components";
 import LandingPageCard from "components/LandingPageCard";
 import LandingPageHeader from "components/LandingPageHeader";
+
 
 const dropdownlargeOptionsList = [
   { label: "Option1", value: "option1" },
@@ -29,6 +31,10 @@ const dropdownlargeOneOptionsList = [
 ];
 
 const ListingPage = () => {
+
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to the top on component mount
+  }, []);
 
   const landingPageCardPropList = [
     { image: "images/img_image_1.png" },

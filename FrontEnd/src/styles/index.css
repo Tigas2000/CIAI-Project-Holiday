@@ -185,24 +185,42 @@ ul li a{
 }
 
 .calendar {
-  display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 5px;
-  max-width: 300px;
   margin: auto;
 }
 
-.weekdays {
+.week-row {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 5px;
   font-weight: bold;
 }
 
+.weekday {
+  display: flex;
+  grid-template-columns: repeat(7, 1fr);
+  font-weight: bold;
+  width: 150px;
+  height: 50px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+  background-color: rgba(173, 172, 172, 0.658);
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
 .day {
   padding: 10px;
   border: 1px solid #ddd;
   text-align: center;
+  transition: background-color 0.3s ease;
+  border-radius: 8px;
+}
+
+.hovered {
+  background-color: rgb(107, 117, 119) !important; /* Change this to your desired hover background color */
 }
 
 .white {
@@ -210,15 +228,15 @@ ul li a{
 }
 
 .green {
-  background-color: green;
+  background-color: rgb(8, 94, 8);
 }
 
 .yellow {
-  background-color: yellow;
+  background-color: rgba(255, 255, 0, 0.959);
 }
 
 .orange {
-  background-color: orange;
+  background-color: rgb(194, 96, 5);
 }
 
 .red {

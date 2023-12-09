@@ -2,16 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Button, GoogleMap, Img, Input, List, Text } from "components";
 import LandingPageCard from "components/LandingPageCard";
 import LandingPageHeader from "components/LandingPageHeader";
-import Calendar from "modals/CalendarModal";
+import CalendarModal from "modals/CalendarModal";
 
 const PropertyDetailsPage = ({ match }) => {
   const [apartment, setApartment] = useState({});
   const [reviews, setReviews] = useState([]);
   const [availability, setAvailability] = useState([]);
-  const [showCalendar, setShowCalendar] = useState(false);
+
+  const [isCalendarOpen, setShowCalendar] = useState(false);
 
   const openCalendar = () => {
-    // Fetch availability here and update the state
     setShowCalendar(true);
   };
 
@@ -373,20 +373,13 @@ const PropertyDetailsPage = ({ match }) => {
                       </Text>
                       <div className="flex flex-col gap-3 h-[440px] md:h-auto items-start justify-start w-full">
                         <Button
-                          onClick={openCalendar}
+                          onClick={() => {
+                            openCalendar();
+                          }}
                           className="bg-gray-900 cursor-pointer font-semibold py-[17px] rounded-[10px] text-base text-center text-white-A700 w-full"
                         >
                           Check Availability
                         </Button>
-
-                        {/* Calendar Modal/Popover */}
-                        {showCalendar && (
-                          <div className="modal-overlay" onClick={closeCalendar}>
-                            <div className="modal">
-                              <Calendar availability={availability} />
-                            </div>
-                          </div>
-                        )}
 
                         <Input
                           name="textfieldlarge_One"
@@ -447,6 +440,7 @@ const PropertyDetailsPage = ({ match }) => {
           <div className="flex flex-col font-manrope items-center justify-center md:px-10 sm:px-5 px-[120px] w-full">
           </div>
         </div>
+        <CalendarModal isOpen={isCalendarOpen} onRequestClose={closeCalendar} />
       </div>
     </>
   );
