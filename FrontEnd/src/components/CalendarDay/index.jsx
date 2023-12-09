@@ -6,7 +6,6 @@ const CalendarDay = ({ date, color, availability, onClick, selectedRange, hovere
   const handleMouseOver = () => {
     setIsHovered(true);
     onHover(date);
-    console.log(date);
   };
 
   const handleMouseOut = () => {

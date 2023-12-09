@@ -3,42 +3,60 @@ import { default as ModalProvider } from "react-modal";
 import { Button, Img, Input, Line, Text } from "components";
 import CalendarDay from "components/CalendarDay";
 
-const getColor = (date) => {
-  /* const dayAvailability = availability.find(item => item.date === day);
-
-  if (dayAvailability) {
-    switch (dayAvailability.status) {
-      case 'available':
-        return 'green';
-      case 'under_consideration':
-        return 'yellow';
-      case 'booked':
-        return 'orange';
-      case 'occupied':
-        return 'red';
-      case 'awaiting_review':
-        return 'orange';
-      case 'closed':
-        return 'yellow';
-      default:
-        return 'black';
-    }
-  }*/
-
-  return 'green';
-};
-
-const getAvailability = (day) => {
-  // return availability.find(item => item.date === day);
-  return 'Available';
-}
-
 const CalendarModal = (props) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [startDate, setStartDate] = useState(null);
   const [finalDate, setFinalDate] = useState(null);
   const [hoveredDate, setHoveredDate] = useState(null);
+  const [bookedDays, setBookedDays] = useState([]);
   
+  const getColor = (date) => {
+    /* const dayAvailability = availability.find(item => item.date === day);
+  
+    if (dayAvailability) {
+      switch (dayAvailability.status) {
+        case 'available':
+          return 'green';
+        case 'under_consideration':
+          return 'yellow';
+        case 'booked':
+          return 'orange';
+        case 'occupied':
+          return 'red';
+        case 'awaiting_review':
+          return 'orange';
+        case 'closed':
+          return 'yellow';
+        default:
+          return 'black';
+      }
+    }*/
+  
+    if (getAvailability(date) !== "Available") {
+      return "orange";
+    }
+  
+    return 'green';
+  };
+
+  const getAvailability = (date) => {
+    if (bookedDays.some((bookedDate) => isSameDay(bookedDate, date))) {
+      return 'Booked';
+    }
+    return "Available";
+  }
+
+  const isSameDay = (date1, date2) => {
+    if (typeof date1 === 'number') {
+      date1 = new Date(currentYear, currentMonth, date1);
+    }
+  
+    return (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    );
+  };
 
   const handleDateClick = (selectedDate) => {
     if (!startDate) {
@@ -110,19 +128,35 @@ const CalendarModal = (props) => {
   };
 
   const bookSelectedDates = () => {
-    // Check if any selected date is not available
-    const isAnyDateNotAvailable = Array.from({ length: days.length }, (_, index) => index + 1)
-      .filter((day) => {
+    if (startDate && finalDate) {
+      const startDay = startDate.getDate();
+      const endDay = finalDate.getDate();
+      const selectedDays = Array.from({ length: Math.abs(endDay - startDay) + 1 }, (_, index) =>
+        startDay < endDay ? startDay + index : startDay - index
+      );
+  
+      const isAnyDateNotAvailable = selectedDays.filter((day) => {
         const selectedDate = new Date(currentYear, currentMonth, day);
-        return ((selectedDate >= startDate && selectedDate <= finalDate) || (selectedDate <= startDate && selectedDate >= finalDate)) && getAvailability(selectedDate) !== 'Available';
+        const isAvailable = getAvailability(selectedDate) === 'Available';
+        return !isAvailable;
       }).length > 0;
 
-    if (!isAnyDateNotAvailable) {
-      console.log('Booking selected dates:', startDate, 'to', finalDate);
-    } else {
-      console.log('Some selected dates are not available. Cannot book.');
+
+  
+      if (!isAnyDateNotAvailable) {
+        console.log('Booking selected dates:', startDate, 'to', finalDate);
+        const newBookedDays = Array.from({ length: Math.abs(endDay - startDay) + 1 }, (_, index) => {
+          const day = startDay < endDay ? startDay + index : startDay - index;
+          return new Date(currentYear, currentMonth, day);
+        });
+        setBookedDays((prevBookedDays) => [...prevBookedDays, ...newBookedDays]);
+        console.log(newBookedDays);
+      } else {
+        console.log('Some selected dates are not available. Cannot book.');
+      }
     }
   };
+
 
   return (
     <ModalProvider
