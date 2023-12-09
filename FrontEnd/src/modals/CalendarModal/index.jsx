@@ -38,6 +38,7 @@ const CalendarModal = (props) => {
   const [startDate, setStartDate] = useState(null);
   const [finalDate, setFinalDate] = useState(null);
   const [hoveredDate, setHoveredDate] = useState(null);
+  
 
   const handleDateClick = (selectedDate) => {
     if (!startDate) {

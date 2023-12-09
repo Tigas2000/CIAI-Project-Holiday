@@ -39,10 +39,10 @@ const CalendarDay = ({ date, color, availability, onClick, selectedRange, hovere
       onClick={() => onClick(date)}
       style={{ width: '150px', height: '80px', fontSize: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
     >
-      {!isHovered && !isInSelectedRange() && <div>{date.getDate()}</div>}
+      {!isHovered && !isInSelectedRange() && !isInHoveredRange() && <div>{date.getDate()}</div>}
       <div
         className="availability-tooltip"
-        style={{ display: isHovered || isInSelectedRange() || isInHoveredRange() ? 'block' : 'none' }}
+        style={{ display: isHovered || isInSelectedRange() || isInHoveredRange() ? 'block' : 'none'}}
       >
         {/* Render availability information here */}
         {availability}
