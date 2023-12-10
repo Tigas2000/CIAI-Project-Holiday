@@ -6,5 +6,11 @@ import java.util.*
 
 @Repository
 interface EventRepository : CrudRepository<EventDataAccessObject, Long> {
-    fun getEventByPropertyAndDate(property: PropertyDataAccessObject, date: Date): Optional<EventDataAccessObject>
+
+    fun getEventByPropertyAndDateOrderByDate(property: Optional<PropertyDataAccessObject>, date: Int): Optional<EventDataAccessObject>
+
+
+    fun getEventByPropertyOrderByDate(property: Optional<PropertyDataAccessObject>): Iterable<EventDataAccessObject>
+
+    fun getEventsByOrderByDate(): Iterable<EventDataAccessObject>
 }
