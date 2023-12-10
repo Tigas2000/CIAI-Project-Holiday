@@ -11,7 +11,7 @@ const ErrorPage = () => {
         <div className="flex flex-col font-manrope gap-[30px] items-center justify-start md:px-5 w-auto sm:w-full">
           <Img
             className="h-[480px] w-[464px]"
-            src="images/img_frame1000001686.svg"
+            src="/images/img_frame1000001686.svg"
             alt="frame1000001686"
           />
           <div className="flex flex-col gap-6 items-center justify-start w-auto">
@@ -26,7 +26,7 @@ const ErrorPage = () => {
               rightIcon={
                 <Img
                   className="h-5 mb-[5px] ml-2.5"
-                  src="images/img_arrowright_gray_900.svg"
+                  src="/images/img_arrowright_gray_900.svg"
                   alt="arrow_right"
                 />
               }

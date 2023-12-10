@@ -9,7 +9,7 @@ const Header = (props) => {
         <div className="flex md:flex-col flex-row md:gap-10 items-center justify-between w-full">
           <div className="header-row my-px">
             <div className="flex flex-row gap-[11px] items-center justify-start">
-              <Img className="h-10 w-10" src="images/img_home.svg" alt="home" />
+              <Img className="h-10 w-10" src="/images/img_home.svg" alt="home" />
               <Text
                 className="text-orange-A700 text-xl w-auto"
                 size="txtMarkoOneRegular20"
@@ -37,7 +37,7 @@ const Header = (props) => {
                 </Text>
                 <Img
                   className="h-4 w-4"
-                  src="images/img_arrowdown_gray_600.svg"
+                  src="/images/img_arrowdown_gray_600.svg"
                   alt="arrowdown"
                 />
               </div>
@@ -50,7 +50,7 @@ const Header = (props) => {
                 </Text>
                 <Img
                   className="h-4 w-4"
-                  src="images/img_arrowdown_gray_600.svg"
+                  src="/images/img_arrowdown_gray_600.svg"
                   alt="arrowdown"
                 />
               </div>
@@ -63,7 +63,7 @@ const Header = (props) => {
                 </Text>
                 <Img
                   className="h-4 w-4"
-                  src="images/img_arrowdown_gray_600.svg"
+                  src="/images/img_arrowdown_gray_600.svg"
                   alt="arrowdown"
                 />
               </div>
@@ -87,7 +87,7 @@ const Header = (props) => {
               leftIcon={
                 <Img
                   className="h-6 mb-px mr-2"
-                  src="images/img_search.svg"
+                  src="/images/img_search.svg"
                   alt="search"
                 />
               }

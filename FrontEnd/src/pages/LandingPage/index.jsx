@@ -9,6 +9,7 @@ import LandingPageHeader from "components/LandingPageHeader";
 const LandingPagePage = () => {
   const navigate = useNavigate();
 
+
   const landingPageCardPropList = [
     { image: "images/img_image_1.png" },
     { image: "images/img_image_2.png" },
@@ -17,8 +18,6 @@ const LandingPagePage = () => {
     { image: "images/img_image_5.png" },
     { image: "images/img_image_6.png" },
   ];
-  const sliderRef = React.useRef(null);
-  const [sliderState, setsliderState] = React.useState(0);
 
   const [propertyList, setPropertyList] = useState([]);
 
@@ -68,15 +67,14 @@ const LandingPagePage = () => {
                     className="leading-[180.00%] max-w-[610px] md:max-w-full text-gray-700 text-xl"
                     size="txtManropeRegular20"
                   >
-                    We helps businesses customize, automate and scale up their
-                    ad production and delivery.
+                    Rent a house and spend a relaxing weekend away from trouble
                   </Text>
                 </div>
               </div>
               <div className="flex md:flex-1 flex-col items-center justify-start w-[47%] md:w-full">
                 <Img
                   className="h-[503px] md:h-auto object-cover w-full"
-                  src="images/img_image.png"
+                  src="/images/img_image.png"
                   alt="image"
                 />
               </div>
@@ -99,7 +97,7 @@ const LandingPagePage = () => {
                   rightIcon={
                     <Img
                       className="h-6 mb-[3px] ml-2"
-                      src="images/img_arrowright.svg"
+                      src="/images/img_arrowright.svg"
                       alt="arrow_right"
                     />
                   }

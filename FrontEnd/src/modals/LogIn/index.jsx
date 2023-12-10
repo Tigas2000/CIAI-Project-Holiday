@@ -39,7 +39,7 @@ const LogInModal = (props) => {
                   </Text>
                   <Img
                     className="common-pointer h-[30px] w-[30px]"
-                    src="images/img_close_gray_900.svg"
+                    src="/images/img_close_gray_900.svg"
                     alt="close"
                     onClick={props.onRequestClose}
                   />
@@ -54,7 +54,7 @@ const LogInModal = (props) => {
                     prefix={
                       <Img
                         className="mt-auto mb-px h-6 mr-3.5"
-                        src="images/img_user.svg"
+                        src="/images/img_user.svg"
                         alt="user"
                       />
                     }
@@ -68,7 +68,7 @@ const LogInModal = (props) => {
                     prefix={
                       <Img
                         className="mt-auto mb-px h-6 mr-3.5"
-                        src="images/img_user_gray_600.svg"
+                        src="/images/img_user_gray_600.svg"
                         alt="user"
                       />
                     }

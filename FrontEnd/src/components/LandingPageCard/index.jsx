@@ -32,7 +32,7 @@ const LandingPageCard = (props) => {
   }
   
   console.log(`PROPERTY`, property);
-  console.log(`PROPERTY NAME`, property.name);
+  console.log(`PROPERTY NAME`, property?.name);
   return (
     <>
       <div className={props?.className}>
@@ -56,7 +56,7 @@ const LandingPageCard = (props) => {
                 <div className="flex flex-1 flex-row gap-3 items-center justify-start w-full">
                   <Img
                     className="h-5 w-5"
-                    src="images/img_bookmark.svg"
+                    src="/images/img_bookmark.svg"
                     alt="bookmark"
                   />
                   <Text
@@ -69,7 +69,7 @@ const LandingPageCard = (props) => {
                 <div className="flex flex-1 flex-row gap-3 items-center justify-start w-full">
                   <Img
                     className="h-5 w-5"
-                    src="images/img_ticket.svg"
+                    src="/images/img_ticket.svg"
                     alt="ticket"
                   />
                   <Text
@@ -84,7 +84,7 @@ const LandingPageCard = (props) => {
                 <div className="flex flex-1 flex-row gap-3 items-center justify-start w-full">
                   <Img
                     className="h-5 w-5"
-                    src="images/img_icon.svg"
+                    src="/images/img_icon.svg"
                     alt="icon"
                   />
                   <Text
@@ -97,7 +97,7 @@ const LandingPageCard = (props) => {
                 <div className="flex flex-1 flex-row gap-3 items-center justify-start w-full">
                   <Img
                     className="h-5 w-5"
-                    src="images/img_settings.svg"
+                    src="/images/img_settings.svg"
                     alt="settings"
                   />
                   <Text
@@ -129,7 +129,7 @@ const LandingPageCard = (props) => {
 };
 
 LandingPageCard.defaultProps = {
-  image: "images/img_image_260x384.png",
+  image: "/images/img_image_260x384.png",
   p286162ndaveoaklone: "2861 62nd Ave, Oakland, CA 94605",
   p3bedroom: "3 Bed Room",
   bathcounter: "1 Bath",

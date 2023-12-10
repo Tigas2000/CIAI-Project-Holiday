@@ -1,5 +1,6 @@
 package pt.unl.fct.di.holiday.presentation
 
+import javassist.NotFoundException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -7,7 +8,7 @@ import pt.unl.fct.di.holiday.domain.RoleType
 import pt.unl.fct.di.holiday.domain.UserDataAccessObject
 import pt.unl.fct.di.holiday.services.UserService
 
-data class UserData(
+data class User(
     val username: String,
     val password: String
 )
@@ -20,15 +21,15 @@ class UserController(val userService: UserService) : UserAPI {
         return "{bcrypt}${BCryptPasswordEncoder().encode(pw)}"
     }
 
-    override fun addUser(user: UserData) {
-        if(userService.hasUserWithName(user.username)) {
-            throw Exception("User with username ${user.username} is already in the system.")
+    override fun addUser(user: User) {
+        if(userService.alreadyHasUsername(user.username)) {
+            throw NotFoundException("User with username ${user.username} is already in the system.")
         }
         else
             userService.addUser(UserDataAccessObject(userService.getNewId(), RoleType.CLIENT, user.username, encode(user.password)))
     }
 
-    override fun login(user: UserData) {
+    override fun login(user: User) {
 
         var subject = userService.users.findByUsername(user.username)
     }
