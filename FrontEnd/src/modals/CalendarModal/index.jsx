@@ -3,7 +3,10 @@ import { default as ModalProvider } from "react-modal";
 import { Button, Img, Input, Line, Text } from "components";
 import CalendarDay from "components/CalendarDay";
 
-const CalendarModal = ({onDaysSelect, onDaysRemove, bookedDays, underConsiderationDays, id, ...props}) => {
+const CalendarModal = ({onAddUnderConsiderationDays, onRemoveBookedDays, bookedDays, underConsiderationDays, confirmBookedDays, id, ...props}) => {
+  
+  // ======================================= CONSTANTS =============================================
+  
   const [currentDate, setCurrentDate] = useState(new Date());
   const [startDate, setStartDate] = useState(null);
   const [finalDate, setFinalDate] = useState(null);
@@ -11,14 +14,6 @@ const CalendarModal = ({onDaysSelect, onDaysRemove, bookedDays, underConsiderati
   const [isBookedSelection, setIsBookedSelection] = useState(false);
   const [numberOfPeople, setNumberOfPeople] = useState();
 
-  const handleBookButtonClick = () => {
-    if (isBookedSelection) {
-      unreserveSelectedDates();
-    } else {
-      reserveSelectedDates();
-    }
-  };
-  
   // Constants for availability status
   const AvailabilityStatus = {
     AVAILABLE: 'Available',
@@ -38,51 +33,26 @@ const CalendarModal = ({onDaysSelect, onDaysRemove, bookedDays, underConsiderati
     BLACK: 'black',
   };
 
-  const getColor = (date, thisId) => {
-    const availability = getAvailability(date, thisId);
-  
-    switch (availability) {
-      case AvailabilityStatus.AVAILABLE:
-        return ColorStatus.GREEN;
-      case AvailabilityStatus.UNDER_CONSIDERATION:
-        return ColorStatus.YELLOW;
-      case AvailabilityStatus.BOOKED:
-        return ColorStatus.ORANGE;
-      case AvailabilityStatus.OCCUPIED:
-        return ColorStatus.RED;
-      case AvailabilityStatus.AWAITING_REVIEW:
-        return ColorStatus.BLACK
-      case AvailabilityStatus.CLOSED:
-        return ColorStatus.BLACK;
-      default:
-        return ColorStatus.BLACK;
+
+  const [userIsOwner, setUserIsOwner] = useState(true);  // TODO mudar para quando for o owner da propriedade
+
+  // ====================/===================== CONSTANTS =======================/======================
+
+  // ======================================= EVENT HANDLERS =============================================
+
+  // Button click event handlers
+  const handleBookButtonClick = () => {
+    if (isBookedSelection) {
+      unreserveSelectedDates();
+    } else {
+      reserveSelectedDates();
     }
   };
 
-  const getAvailability = (date, propertyId) => { // É preciso atualizar para lidar com todos os estados
-    if (bookedDays.find((bookedDate) =>
-    isSameDay(bookedDate.date, date) && bookedDate.id === propertyId
-    ))
-    return "Booked";
-    else if (underConsiderationDays.find((underConsiderationDate) =>
-    isSameDay(underConsiderationDate.date, date) && underConsiderationDate.id === propertyId
-    ))
-      return "Under Consideration";
-    return "Available";
-  }
-
-  const isSameDay = (date1, date2) => {
-    if (!(date1 instanceof Date) || !(date2 instanceof Date)) {
-      return false;
-    }
-  
-    return (
-      date1.getFullYear() === date2.getFullYear() &&
-      date1.getMonth() === date2.getMonth() &&
-      date1.getDate() === date2.getDate()
-    );
+  // Hover event handlers
+  const onHover = (date) => {
+    setHoveredDate(date);
   };
-  
 
   // Click event handlers
   const handleDateClick = (selectedDate) => {
@@ -111,29 +81,74 @@ const CalendarModal = ({onDaysSelect, onDaysRemove, bookedDays, underConsiderati
     }
   };
 
-  // Hover event handlers
-  const onHover = (date) => {
-    setHoveredDate(date);
+  // =====================/================= EVENT HANDLERS =======================/=====================
+  
+  // Get day colors
+  const getColor = (date, thisId) => {
+    const availability = getAvailability(date, thisId);
+  
+    switch (availability) {
+      case AvailabilityStatus.AVAILABLE:
+        return ColorStatus.GREEN;
+      case AvailabilityStatus.UNDER_CONSIDERATION:
+        return ColorStatus.YELLOW;
+      case AvailabilityStatus.BOOKED:
+        return ColorStatus.ORANGE;
+      case AvailabilityStatus.OCCUPIED:
+        return ColorStatus.RED;
+      case AvailabilityStatus.AWAITING_REVIEW:
+        return ColorStatus.BLACK
+      case AvailabilityStatus.CLOSED:
+        return ColorStatus.BLACK;
+      default:
+        return ColorStatus.BLACK;
+    }
   };
 
-  // Calendar day creation
+  // Check availability
+  const getAvailability = (date, propertyId) => {
+    const isBooked = bookedDays.some(
+      (bookedDate) =>
+        isSameDay(bookedDate.date, date) && bookedDate.id === propertyId
+    );
+    const isUnderConsideration = underConsiderationDays.some(
+      (underConsiderationDate) =>
+        isSameDay(underConsiderationDate.date, date) &&
+        underConsiderationDate.id === propertyId
+    );
+    if (isBooked) {
+      return AvailabilityStatus.BOOKED;
+    } else if (isUnderConsideration) {
+      return AvailabilityStatus.UNDER_CONSIDERATION;
+    }
+    return AvailabilityStatus.AVAILABLE;
+  };
+
+  // Check same day
+  const isSameDay = (date1, date2) => {
+    if (!(date1 instanceof Date) || !(date2 instanceof Date)) {
+      return false;
+    }
+    return (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    );
+  };
+  
+  // Calendar creation
   const getDaysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth();
   const daysInMonth = getDaysInMonth(currentYear, currentMonth);
-
   const days = Array.from({ length: daysInMonth }, (_, index) => index + 1);
 
   // Day rendering
   const renderDays = () => {
-    
-
-    // Push the days to rows
     const rows = [];
     for (let i = 0; i < days.length; i += 7) {
       rows.push(days.slice(i, i + 7));
     }
-
     return rows.map((row, rowIndex) => (
       <div key={rowIndex} className="week-row">
         {row.map((day, index) => {   
@@ -156,6 +171,7 @@ const CalendarModal = ({onDaysSelect, onDaysRemove, bookedDays, underConsiderati
     ));
   };
 
+  // Week creation
   const renderWeekdays = () => (
     <div className="week-row">
       {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((weekday, index) => (
@@ -173,31 +189,23 @@ const CalendarModal = ({onDaysSelect, onDaysRemove, bookedDays, underConsiderati
     setCurrentDate(newDate);
   };
 
-  // Booking selected days
+  // Setting selected days to under consideration
   const reserveSelectedDates = () => {
     if (startDate && finalDate) {
-      const startDay = startDate.getDate();
-      const endDay = finalDate.getDate();
-      const selectedDays = Array.from({ length: Math.abs(endDay - startDay) + 1 }, (_, index) =>
-        startDay < endDay ? startDay + index : startDay - index
-      );
-  
+      const selectedDays = getDaysBetweenDates(startDate, finalDate);
+
       const isAnyDateNotAvailable = selectedDays.filter((day) => {
-        const selectedDate = new Date(currentYear, currentMonth, day);
-        const isAvailable = getAvailability(selectedDate, id) === 'Available';
+        const isAvailable = getAvailability(day, id) === 'Available';
         return !isAvailable;
       }).length > 0;
-  
+
       if (!isAnyDateNotAvailable) {
-        console.log('Reserving selected dates:', startDay, 'to', endDay, 'for', numberOfPeople, 'people in apartment ', id);
-        const newReservedDays = Array.from({ length: Math.abs(endDay - startDay) + 1 }, (_, index) => {
-          const day = startDay < endDay ? startDay + index : startDay - index;
-          return {date: new Date(currentYear, currentMonth, day), numberOfPeople, id};
-        });
+          const newReservedDays = selectedDays.map((date) => ({date, numberOfPeople, id}));
+        
         console.log('RESERVED NEW DATES:', newReservedDays);
-        onDaysSelect(newReservedDays);
+        onAddUnderConsiderationDays(newReservedDays);
       } else {
-        console.log('Some selected dates are not available. Cannot book.');
+        //console.log('Some selected dates are not available. Cannot book.');
       }
     }
   };
@@ -205,16 +213,29 @@ const CalendarModal = ({onDaysSelect, onDaysRemove, bookedDays, underConsiderati
   // Unbooking selected days
   const unreserveSelectedDates = () => {
     if (startDate && finalDate) {
-      const startDay = startDate.getDate();
-      const endDay = finalDate.getDate();
-      const unreservedDays = Array.from({ length: Math.abs(endDay - startDay) + 1 }, (_, index) =>
-        startDay < endDay ? startDay + index : startDay - index
-      );
-  
-      // Remove the unbooked days from the reserved state
-      onDaysRemove(unreservedDays);
-      console.log('Unbooking selected dates:', startDay, 'to', endDay, 'from apartment', id);
+      const selectedDays = getDaysBetweenDates(startDate, finalDate);
+      console.log("SELECTED DAYS:", selectedDays);
+      onRemoveBookedDays(selectedDays);
     }
+  };
+
+  // Under consideration => Booked
+  const handleConfirmBooking = () => {
+    if (startDate && finalDate) {
+      const selectedDays = getDaysBetweenDates(startDate, finalDate);
+      console.log("TRYING TO ADD A DAY FROM UC TO BOOKED. SELECTED DAYS WERE", selectedDays);
+      confirmBookedDays(selectedDays);
+    }
+  };
+
+  const getDaysBetweenDates = (start, end) => {
+    const days = [];
+    let currentDate = new Date(start);
+    while (currentDate <= end) {
+      days.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    return days;
   };
 
   return (
@@ -256,6 +277,15 @@ const CalendarModal = ({onDaysSelect, onDaysRemove, bookedDays, underConsiderati
             onChange={(value) => setNumberOfPeople(value)}
           />
         </div>
+        {userIsOwner && (
+          <Button
+            onClick= {handleConfirmBooking}
+            className="owner-only-button"
+            disabled={!userIsOwner} // Disable the button if userIsOwner is false
+          >
+            Confirm Booking
+          </Button>
+        )}
       </div>
       
     </ModalProvider>

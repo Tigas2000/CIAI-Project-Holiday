@@ -267,6 +267,15 @@ ul li a{
   bottom: -100%;
 }
 
+.owner-only-button {
+  position: absolute;
+  right: 20%; /* Adjust the right distance as needed */
+  bottom: -215%;
+  background-color: #000;
+  color: #ffffff;
+  border-radius: 30px;
+  padding: 20px;
+}
 
 .white {
   background-color: white;

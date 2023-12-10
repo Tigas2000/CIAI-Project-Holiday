@@ -19,6 +19,7 @@ const PropertyDetailsPage = ( ...props ) => {
   const [bookedDays, setBookedDays] = useState([]);
   const [isCalendarOpen, setShowCalendar] = useState(false);
 
+  // Add to U_C
   const addUnderConsiderationDays = (selectedDays) => {
     const updatedUnderConsiderationDays = [...underConsiderationDays, ...selectedDays];
     setUnderConsiderationDays(updatedUnderConsiderationDays);
@@ -26,24 +27,37 @@ const PropertyDetailsPage = ( ...props ) => {
     saveUnderConsiderationDays(updatedUnderConsiderationDays);
   };
 
+  // Add from U_C to Booked
+  const confirmBookedDays = (selectedDays) => {
+    const actuallyUnderConsideration = daysThatArePartOfList(underConsiderationDays, selectedDays);
+    removeUnderConsiderationDays(actuallyUnderConsideration);
+    addBookedDays(actuallyUnderConsideration);
+  };
+
+  // Remove from both
+  const removeReservedDays = (selectedDays) => {
+    removeUnderConsiderationDays(daysThatArePartOfList(underConsiderationDays, selectedDays));
+    removeBookedDays(daysThatArePartOfList(bookedDays, selectedDays));
+  }
+
+  // Private method to remove from U_C
   const removeUnderConsiderationDays = (selectedDays) => {
-    const updatedUnderConsiderationDays = underConsiderationDays.filter((underConsiderationDate) => {
-      const day = underConsiderationDate.date.getDate();
-      return !selectedDays.includes(day);
-    });
+    const updatedUnderConsiderationDays = removeFromList(underConsiderationDays, selectedDays);
     console.log("REMOVED UNDER CONSIDERATION DAYS, THIS IS WHAT REMAINS: ", updatedUnderConsiderationDays);
     setUnderConsiderationDays(updatedUnderConsiderationDays);
     saveUnderConsiderationDays(updatedUnderConsiderationDays);
   }
 
-  const confirmBookedDays = (selectedDays) => {
-    const updatedBookedDays = [...bookedDays, ...selectedDays];
-    setBookedDays(updatedBookedDays);
-    console.log("ADDED DAYS TO BOOKED LIST: ", updatedBookedDays);
-    saveBookedDays(updatedBookedDays);
-    removeUnderConsiderationDays(selectedDays);
-  };
+  // Private method to remove from Booked
+  const removeBookedDays = (selectedDays) => {
+    console.log("BEFORE REMOVING BOOKED DAYS: ", bookedDays);
+    const newList = removeFromList(bookedDays, selectedDays);
+    console.log("REMOVED BOOKED DAYS, THIS IS WHAT REMAINS: ", newList);
+    setBookedDays(newList);
+    saveBookedDays(newList);
+  }
 
+  // Private method to add to Booked
   const addBookedDays = (selectedDays) => {
     const updatedBookedDays = [...bookedDays, ...selectedDays];
     setBookedDays(updatedBookedDays);
@@ -51,27 +65,49 @@ const PropertyDetailsPage = ( ...props ) => {
     saveBookedDays(updatedBookedDays);
   };
 
-  const removeBookedDays = (selectedDays) => {
-    const updatedBookedDays = bookedDays.filter((bookedDate) => {
-      const day = bookedDate.date.getDate();
-      return !selectedDays.includes(day);
-    });
-    console.log("REMOVED BOOKED DAYS, THIS IS WHAT REMAINS: ", updatedBookedDays);
-    setBookedDays(updatedBookedDays);
-    saveBookedDays(updatedBookedDays);
-  }
-
+  // Open calendar and load lists
   const openCalendar = () => {
     const loadedBookedDays = loadBookedDays();
+    const loadedUnderConsiderationDays = loadUnderConsiderationDays();
     setBookedDays(loadedBookedDays);
+    setUnderConsiderationDays(loadedUnderConsiderationDays);
     setShowCalendar(true);
   };
 
+  // Close calendar and save lists
   const closeCalendar = () => {
     saveBookedDays(bookedDays);
+    saveUnderConsiderationDays(underConsiderationDays);
     setShowCalendar(false);
   };
 
+   // Check same day
+   const isSameDay = (date1, date2) => {
+    if (!(date1 instanceof Date) || !(date2 instanceof Date) || (date1 == null) || (date2 == null)) {
+      return false;
+    }
+    return (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    );
+  };
+
+  const daysThatArePartOfList = (list, selectedDays) => {
+    const days = list.filter((listDate) => {
+      return selectedDays.some(date => isSameDay(date, listDate.date));
+    });
+    return days;
+  }
+
+  const removeFromList = (list, selectedDays) => {
+    console.log("list / selectedDays", list, '/', selectedDays);
+    const days = list.filter((listDate) => {
+      return !selectedDays.some(date => isSameDay(date.date, listDate.date));
+    });
+    console.log("days", days);
+    return days;
+  };
 
   return (
     <>
@@ -472,11 +508,12 @@ const PropertyDetailsPage = ( ...props ) => {
         </div>
         <CalendarModal
         isOpen={isCalendarOpen}
-        onDaysSelect={addUnderConsiderationDays}
-        onDaysRemove={removeUnderConsiderationDays}
+        onAddUnderConsiderationDays={addUnderConsiderationDays}
+        onRemoveBookedDays={removeReservedDays}
         onRequestClose={closeCalendar}
         underConsiderationDays={underConsiderationDays}
         bookedDays={bookedDays}
+        confirmBookedDays={confirmBookedDays}
         id={id}/>
       </div>
     </>
