@@ -19,7 +19,7 @@ const CalendarModal = ({onDaysSelect, onDaysRemove, bookedDays, id, ...props}) =
     }
   };
   
-  const getColor = (date) => {
+  const getColor = (date, thisId) => {
     /*
       if (dayAvailability) {
       switch (dayAvailability.status) {
@@ -40,17 +40,18 @@ const CalendarModal = ({onDaysSelect, onDaysRemove, bookedDays, id, ...props}) =
       }
     }*/
   
-    if (getAvailability(date) !== "Available") {
-      return "orange";
+    if (getAvailability(date, thisId) == "Available") {
+      return "green";
     }
   
-    return 'green';
+    return 'orange';
   };
 
-  const getAvailability = (date) => {
-    if (bookedDays.some((bookedDate) => isSameDay(bookedDate.date, date))) {
+  const getAvailability = (date, bookingId) => {
+    if (bookedDays.find((bookedDate) =>
+    isSameDay(bookedDate.date, date) && bookedDate.id === bookingId
+    ))
       return 'Booked';
-    }
     return "Available";
   }
 
@@ -125,8 +126,8 @@ const CalendarModal = ({onDaysSelect, onDaysRemove, bookedDays, id, ...props}) =
             <CalendarDay
               key={index}
               date={thisDate}
-              color={getColor(thisDate)} // Pass the actual date to getColor
-              availability={getAvailability(thisDate)} // Pass the actual date to getAvailability
+              color={getColor(thisDate, id)} // Pass the actual date to getColor
+              availability={getAvailability(thisDate, id)} // Pass the actual date to getAvailability
               onClick={() => handleDateClick(thisDate)}
               onHover={() => onHover(thisDate)}
               selectedRange={{ start: startDate, final: finalDate }}
@@ -166,7 +167,7 @@ const CalendarModal = ({onDaysSelect, onDaysRemove, bookedDays, id, ...props}) =
   
       const isAnyDateNotAvailable = selectedDays.filter((day) => {
         const selectedDate = new Date(currentYear, currentMonth, day);
-        const isAvailable = getAvailability(selectedDate) === 'Available';
+        const isAvailable = getAvailability(selectedDate, id) === 'Available';
         return !isAvailable;
       }).length > 0;
   

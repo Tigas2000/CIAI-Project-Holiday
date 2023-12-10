@@ -24,10 +24,8 @@ export const loadBookedDays = () => {
 
     if (json) {
       const parsedBookedDays = JSON.parse(json);
-
-      // Convert date strings back to Date objects
       const formattedBookedDays = parsedBookedDays.map((dateObj) => {
-        // Assuming your original format was {date: new Date(currentYear, currentMonth, day), numberOfPeople, id}
+        // {date: new Date(currentYear, currentMonth, day), numberOfPeople, id}
         const { date, numberOfPeople, id } = dateObj;
 
         return {
