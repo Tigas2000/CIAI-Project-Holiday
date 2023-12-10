@@ -19,7 +19,7 @@ class UserService(val users: UserRepository) {
         NotFoundException("User with username $username not found.")
     }
 
-    fun alreadyHasUsername(username: String) : Boolean = users.findByUsername(username).isPresent
+    fun hasUserWithName(username: String) : Boolean = users.findByUsername(username).isPresent
 
     fun getNewId(): Long {
         return users.count() + 1;

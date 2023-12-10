@@ -18,6 +18,11 @@ class PropertyService(val properties: PropertyRepository) {
     fun getNewId(): Long {
         return properties.count() + 1;
     }
+
+    fun hasPropertyName(property: String): Boolean = properties.findByName(property).isPresent
+
+    fun getAllProperties(): Iterable<PropertyDataAccessObject> = properties.findAll()
+
     fun addProperty(property: PropertyDataAccessObject): Optional<PropertyDataAccessObject> {
         return if ( properties.findById(property.id).isPresent )
             Optional.empty()

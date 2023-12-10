@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
 import org.springframework.web.bind.annotation.*
-import pt.unl.fct.di.holiday.domain.UserDataAccessObject
 
 
 @Api(value = "users", description = "User management operations", tags = ["User"])
@@ -16,19 +15,19 @@ interface UserAPI {
     @ApiOperation("Adds user")
     @ApiResponses(value = [ApiResponse(code = 200, message = "Successfully added user")])
     @PostMapping("/addUser", consumes = ["application/json"])
-    fun addUser( @RequestBody user: User )
+    fun addUser( @RequestBody user: UserData)
 
 
 
     @ApiResponses(value = [ApiResponse(code = 200, message = "Successfully added user")])
     @GetMapping("/login")
-    fun login( @RequestBody username: User )
+    fun login( @RequestBody username: UserData)
 
 
     @ApiOperation("Get the list of all users")
     @ApiResponses(value = [ApiResponse(code = 200, message = "Successfully retrieved list of users")])
     @GetMapping("/list")
-    fun getAll():Iterable<UserDataAccessObject>
+    fun getAll():Iterable<UserDataTransferObject>
 
     @ApiOperation("Get info on a user")
     @ApiResponses(value = [ApiResponse(code = 200, message = "Successfully retrieved user")])

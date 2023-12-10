@@ -6,7 +6,7 @@ import pt.unl.fct.di.holiday.domain.PropertyDataAccessObject
 import pt.unl.fct.di.holiday.services.PropertyService
 import pt.unl.fct.di.holiday.services.UserService
 
-data class Property(
+data class PropertyData(
     val name: String,
     val location: String,
     val owner: String
@@ -18,16 +18,49 @@ class PropertyController(val propertyService: PropertyService, val users: UserSe
 
 
     override fun getProperty(property: String): PropertyDataTransferObject {
-        return PropertyDataTransferObject(propertyService.getPropertyByName(property))
+        if(propertyService.hasPropertyName(property)) {
+            return PropertyDataTransferObject(propertyService.getPropertyByName(property))
+        }
+        else {
+            throw Exception("Property with name $property isn't in the system.")
+        }
     }
 
-    override fun addProperty(property: Property) {
-        if(users.alreadyHasUsername(property.owner)) {
-            propertyService.addProperty(
-                PropertyDataAccessObject(propertyService.getNewId(), property.name,
-                    property.location, users.getUserByUsername(property.owner))
-            )
+    override fun getAll(): Iterable<PropertyDataTransferObject> {
+        var properties = propertyService.getAllProperties()
+        var propertiesTransfer = mutableListOf<PropertyDataTransferObject>()
+        for(property in properties)
+            propertiesTransfer.add(PropertyDataTransferObject(property))
+        return propertiesTransfer
+    }
+
+    override fun getAllUserProperties(user: String): Iterable<PropertyDataTransferObject> {
+        if(users.hasUserWithName(user)) {
+            var properties = propertyService.getAllProperties()
+            var propertiesTransfer = mutableListOf<PropertyDataTransferObject>()
+            for(property in properties)
+                if(property.owner.username == user)
+                    propertiesTransfer.add(PropertyDataTransferObject(property))
+            if(propertiesTransfer.isEmpty())
+                throw Exception("User with username $user does not have any properties on the system.")
+            return propertiesTransfer
         }
+        else {
+            throw Exception("User with username $user isn't in the system.")
+        }
+    }
+
+    override fun addProperty(property: PropertyData) {
+        if(users.hasUserWithName(property.owner)) {
+            if(!propertyService.hasPropertyName(property.name)) {
+                propertyService.addProperty(
+                    PropertyDataAccessObject(propertyService.getNewId(), property.name,
+                        property.location, users.getUserByUsername(property.owner))
+                )
+            }
+            throw Exception("Name ${property.name} is already being used in the system for a property.")
+        }
+        throw Exception("User with username ${property.owner} isn't in the system.")
     }
 
 }
