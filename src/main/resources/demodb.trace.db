@@ -616,39 +616,3 @@ Caused by: org.h2.mvstore.MVStoreException: The file is locked: C:/Users/Tigas/I
 	at org.h2.mvstore.FileStore.open(FileStore.java:163)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:444)
 	... 28 more
-2023-12-09 17:58:01 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "TIMESTAMP '2023-12-12 00:00:00' (EVENTS_COPY_3_0: ""DATE"" INTEGER NOT NULL)"; SQL statement:
-INSERT INTO "PUBLIC"."EVENTS_COPY_3_0"("LENGTH", "TYPE", "CLIENT_ID", "DATE", "ID", "PROPERTY_ID") OVERRIDING SYSTEM VALUE SELECT "LENGTH", "TYPE", "CLIENT_ID", "DATE", "ID", "PROPERTY_ID" FROM "PUBLIC"."EVENTS" [22018-214]
-2023-12-09 18:00:59 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "TIMESTAMP '2023-12-12 00:00:00' (EVENTS_COPY_3_0: ""DATE"" INTEGER NOT NULL)"; SQL statement:
-INSERT INTO "PUBLIC"."EVENTS_COPY_3_0"("LENGTH", "TYPE", "CLIENT_ID", "DATE", "ID", "PROPERTY_ID") OVERRIDING SYSTEM VALUE SELECT "LENGTH", "TYPE", "CLIENT_ID", "DATE", "ID", "PROPERTY_ID" FROM "PUBLIC"."EVENTS" [22018-214]
-2023-12-09 18:03:23 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "TIMESTAMP '2023-12-12 00:00:00' (EVENTS_COPY_3_0: ""DATE"" INTEGER NOT NULL)"; SQL statement:
-INSERT INTO "PUBLIC"."EVENTS_COPY_3_0"("LENGTH", "TYPE", "CLIENT_ID", "DATE", "ID", "PROPERTY_ID") OVERRIDING SYSTEM VALUE SELECT "LENGTH", "TYPE", "CLIENT_ID", "DATE", "ID", "PROPERTY_ID" FROM "PUBLIC"."EVENTS" [22018-214]
-2023-12-09 18:04:50 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "TIMESTAMP '2023-12-12 00:00:00' (EVENTS_COPY_3_0: ""DATE"" INTEGER NOT NULL)"; SQL statement:
-INSERT INTO "PUBLIC"."EVENTS_COPY_3_0"("LENGTH", "TYPE", "CLIENT_ID", "DATE", "ID", "PROPERTY_ID") OVERRIDING SYSTEM VALUE SELECT "LENGTH", "TYPE", "CLIENT_ID", "DATE", "ID", "PROPERTY_ID" FROM "PUBLIC"."EVENTS" [22018-214]
-2023-12-09 18:05:13 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "TIMESTAMP '2023-12-12 00:00:00' (EVENTS_COPY_3_0: ""DATE"" INTEGER NOT NULL)"; SQL statement:
-INSERT INTO "PUBLIC"."EVENTS_COPY_3_0"("LENGTH", "TYPE", "CLIENT_ID", "DATE", "ID", "PROPERTY_ID") OVERRIDING SYSTEM VALUE SELECT "LENGTH", "TYPE", "CLIENT_ID", "DATE", "ID", "PROPERTY_ID" FROM "PUBLIC"."EVENTS" [22018-214]
-2023-12-09 19:21:22 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "TIMESTAMP '2023-12-12 00:00:00' (EVENTS_COPY_3_0: ""DATE"" INTEGER NOT NULL)"; SQL statement:
-INSERT INTO "PUBLIC"."EVENTS_COPY_3_0"("LENGTH", "TYPE", "CLIENT_ID", "DATE", "ID", "PROPERTY_ID") OVERRIDING SYSTEM VALUE SELECT "LENGTH", "TYPE", "CLIENT_ID", "DATE", "ID", "PROPERTY_ID" FROM "PUBLIC"."EVENTS" [22018-214]
-2023-12-09 19:23:22 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "TIMESTAMP '2023-12-12 00:00:00' (EVENTS_COPY_3_0: ""DATE"" INTEGER NOT NULL)"; SQL statement:
-INSERT INTO "PUBLIC"."EVENTS_COPY_3_0"("LENGTH", "TYPE", "CLIENT_ID", "DATE", "ID", "PROPERTY_ID") OVERRIDING SYSTEM VALUE SELECT "LENGTH", "TYPE", "CLIENT_ID", "DATE", "ID", "PROPERTY_ID" FROM "PUBLIC"."EVENTS" [22018-214]
-2023-12-09 19:24:32 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "TIMESTAMP '2023-12-12 00:00:00' (EVENTS_COPY_3_1: ""DATE"" INTEGER NOT NULL)"; SQL statement:
-INSERT INTO "PUBLIC"."EVENTS_COPY_3_1"("LENGTH", "TYPE", "CLIENT_ID", "DATE", "ID", "PROPERTY_ID") OVERRIDING SYSTEM VALUE SELECT "LENGTH", "TYPE", "CLIENT_ID", "DATE", "ID", "PROPERTY_ID" FROM "PUBLIC"."EVENTS" [22018-214]
-2023-12-09 19:25:59 jdbc[13]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM EVENTS_COPY_3_0 EVENTS [*]EVENTS_COPY_3_0"; SQL statement:
-SELECT * FROM EVENTS_COPY_3_0 EVENTS EVENTS_COPY_3_0 [42000-214]
-2023-12-09 19:26:33 jdbc[13]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM EVENTS EVENTS_COPY_3_0 [*]EVENTS"; SQL statement:
-SELECT * FROM EVENTS EVENTS_COPY_3_0 EVENTS [42000-214]
-2023-12-09 19:27:49 jdbc[13]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]EVENTS"; expected "EXPLAIN, EXECUTE"; SQL statement:
-EVENTS [42001-214]
-2023-12-09 19:27:51 jdbc[13]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]EVENTS"; expected "EXPLAIN, EXECUTE"; SQL statement:
-EVENTS [42001-214]
