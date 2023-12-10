@@ -10,6 +10,7 @@ const CalendarModal = (props) => {
   const [hoveredDate, setHoveredDate] = useState(null);
   const [bookedDays, setBookedDays] = useState([]);
   const [isBookedSelection, setIsBookedSelection] = useState(false);
+  const [numberOfPeople, setNumberOfPeople] = useState(0);
 
   const handleBookButtonClick = () => {
     if (isBookedSelection) {
@@ -48,7 +49,7 @@ const CalendarModal = (props) => {
   };
 
   const getAvailability = (date) => {
-    if (bookedDays.some((bookedDate) => isSameDay(bookedDate, date))) {
+    if (bookedDays.some((bookedDate) => isSameDay(bookedDate.date, date))) {
       return 'Booked';
     }
     return "Available";
@@ -66,6 +67,7 @@ const CalendarModal = (props) => {
     );
   };
 
+  // Click event handlers
   const handleDateClick = (selectedDate) => {
     if (!startDate) {
       setStartDate(selectedDate);
@@ -81,7 +83,7 @@ const CalendarModal = (props) => {
       }
   
       const isBookedSelection = selectedDays.some((day) =>
-        bookedDays.some((bookedDate) => isSameDay(bookedDate, day))
+        bookedDays.some((bookedDate) => isSameDay(bookedDate.date, day))
       );
       setIsBookedSelection(isBookedSelection);
     } else {
@@ -91,10 +93,12 @@ const CalendarModal = (props) => {
     }
   };
 
+  // Hover event handlers
   const onHover = (date) => {
     setHoveredDate(date);
   };
 
+  // Calendar day creation
   const getDaysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth();
@@ -102,6 +106,7 @@ const CalendarModal = (props) => {
 
   const days = Array.from({ length: daysInMonth }, (_, index) => index + 1);
 
+  // Day rendering
   const renderDays = () => {
     
 
@@ -116,6 +121,7 @@ const CalendarModal = (props) => {
         {row.map((day, index) => {   
           const thisDate = new Date(currentYear, currentMonth, day);      
           return (
+            // Day properties
             <CalendarDay
               key={index}
               date={thisDate}
@@ -142,12 +148,14 @@ const CalendarModal = (props) => {
     </div>
   );
 
+  // Change calendar month
   const changeMonth = (increment) => {
     const newDate = new Date(currentDate);
     newDate.setMonth(newDate.getMonth() + increment);
     setCurrentDate(newDate);
   };
 
+  // Booking selected days
   const bookSelectedDates = () => {
     if (startDate && finalDate) {
       const startDay = startDate.getDate();
@@ -165,10 +173,10 @@ const CalendarModal = (props) => {
 
   
       if (!isAnyDateNotAvailable) {
-        console.log('Booking selected dates:', startDate, 'to', finalDate);
+        console.log('Booking selected dates:', startDate, 'to', finalDate, 'for', numberOfPeople, 'people');
         const newBookedDays = Array.from({ length: Math.abs(endDay - startDay) + 1 }, (_, index) => {
           const day = startDay < endDay ? startDay + index : startDay - index;
-          return new Date(currentYear, currentMonth, day);
+          return {date: new Date(currentYear, currentMonth, day), numberOfPeople};
         });
         setBookedDays((prevBookedDays) => [...prevBookedDays, ...newBookedDays]);
         console.log(newBookedDays);
@@ -178,6 +186,7 @@ const CalendarModal = (props) => {
     }
   };
 
+  // Unbooking selected days
   const unbookSelectedDates = () => {
     if (startDate && finalDate) {
       const startDay = startDate.getDate();
@@ -232,7 +241,9 @@ const CalendarModal = (props) => {
             className="font-semibold p-0 placeholder:text-gray-600 sm:pr-5 text-gray-600 text-left text-lg w-full"
             wrapClassName="bg-white-A700 border border-bluegray-100 border-solid flex pl-4 pr-[35px] py-[17px] rounded-[10px] w-full"
             type="number-people"
-          ></Input>
+            value={numberOfPeople}
+            onChange={(value) => setNumberOfPeople(value)}
+          />
         </div>
       </div>
       
