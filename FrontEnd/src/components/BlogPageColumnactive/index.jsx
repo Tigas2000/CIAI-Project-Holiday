@@ -9,7 +9,7 @@ const BlogPageColumnactive = (props) => {
         <div className="flex flex-col gap-3 items-start justify-start w-full">
           <Img
             className="h-[350px] sm:h-auto object-cover rounded-bl-lg rounded-br-lg w-full"
-            src="images/img_rectangle5617_350x384.png"
+            src="/images/img_rectangle5617_350x384.png"
             alt="rectangle5617"
           />
           <div className="flex flex-col gap-2 items-start justify-start w-full">
@@ -55,7 +55,7 @@ const BlogPageColumnactive = (props) => {
           </Text>
           <Img
             className="h-6 w-6"
-            src="images/img_arrowright_gray_600.svg"
+            src="/images/img_arrowright_gray_600.svg"
             alt="arrowright"
           />
         </div>

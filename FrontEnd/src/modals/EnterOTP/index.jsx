@@ -26,7 +26,7 @@ const EnterOTPModal = (props) => {
                     </Text>
                     <Img
                       className="common-pointer h-[30px] w-[30px]"
-                      src="images/img_close_gray_900.svg"
+                      src="/images/img_close_gray_900.svg"
                       alt="close"
                       onClick={props.onRequestClose}
                     />

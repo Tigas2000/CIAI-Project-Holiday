@@ -26,7 +26,7 @@ const NewPasswordModal = (props) => {
                     </Text>
                     <Img
                       className="common-pointer h-[30px] w-[30px]"
-                      src="images/img_close_gray_900.svg"
+                      src="/images/img_close_gray_900.svg"
                       alt="close"
                       onClick={props.onRequestClose}
                     />
@@ -48,14 +48,14 @@ const NewPasswordModal = (props) => {
                     prefix={
                       <Img
                         className="mt-auto mb-px h-6 mr-3.5"
-                        src="images/img_user_gray_600.svg"
+                        src="/images/img_user_gray_600.svg"
                         alt="user"
                       />
                     }
                     suffix={
                       <Img
                         className="mt-auto mb-px h-6 ml-[35px]"
-                        src="images/img_airplane.svg"
+                        src="/images/img_airplane.svg"
                         alt="airplane"
                       />
                     }
@@ -71,14 +71,14 @@ const NewPasswordModal = (props) => {
                     prefix={
                       <Img
                         className="mt-auto mb-px h-6 mr-3.5"
-                        src="images/img_user_gray_600.svg"
+                        src="/images/img_user_gray_600.svg"
                         alt="user"
                       />
                     }
                     suffix={
                       <Img
                         className="mt-auto mb-px h-6 ml-[35px]"
-                        src="images/img_airplane.svg"
+                        src="/images/img_airplane.svg"
                         alt="airplane"
                       />
                     }

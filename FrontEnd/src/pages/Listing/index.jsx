@@ -103,7 +103,7 @@ const ListingPage = () => {
                       suffix={
                         <Img
                           className="mt-auto mb-[3px] h-6 ml-3"
-                          src="images/img_search_gray_700.svg"
+                          src="/images/img_search_gray_700.svg"
                           alt="search"
                         />
                       }
@@ -116,7 +116,7 @@ const ListingPage = () => {
                       indicator={
                         <Img
                           className="h-6 w-6"
-                          src="images/img_arrowdown_gray_700.svg"
+                          src="/images/img_arrowdown_gray_700.svg"
                           alt="arrow_down"
                         />
                       }
@@ -133,7 +133,7 @@ const ListingPage = () => {
                     indicator={
                       <Img
                         className="h-6 w-6"
-                        src="images/img_arrowdown_gray_700.svg"
+                        src="/images/img_arrowdown_gray_700.svg"
                         alt="arrow_down"
                       />
                     }
@@ -149,7 +149,7 @@ const ListingPage = () => {
                     indicator={
                       <Img
                         className="h-6 w-6"
-                        src="images/img_arrowdown_gray_700.svg"
+                        src="/images/img_arrowdown_gray_700.svg"
                         alt="arrow_down"
                       />
                     }
@@ -164,7 +164,7 @@ const ListingPage = () => {
                     rightIcon={
                       <Img
                         className="h-6 mb-px ml-3"
-                        src="images/img_plus_gray_700.svg"
+                        src="/images/img_plus_gray_700.svg"
                         alt="plus"
                       />
                     }
@@ -178,7 +178,7 @@ const ListingPage = () => {
                     rightIcon={
                       <Img
                         className="h-5 mt-px mb-[3px] ml-2.5"
-                        src="images/img_search_white_a700.svg"
+                        src="/images/img_search_white_a700.svg"
                         alt="search"
                       />
                     }

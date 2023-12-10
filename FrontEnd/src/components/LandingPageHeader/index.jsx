@@ -25,7 +25,7 @@ const LandingPageHeader = (props) => {
         <div className="flex md:flex-col flex-row md:gap-10 items-center justify-between w-full">
           <div className="header-row my-px">
             <div className="flex flex-row gap-[11px] items-center justify-start">
-              <Img className="h-25 w-40" src="images/img_novaSST.png" alt="home" />
+              <Img className="h-25 w-40" src="/images/img_novaSST.png" alt="home" />
             </div>
             <div className="mobile-menu">
               <div></div>

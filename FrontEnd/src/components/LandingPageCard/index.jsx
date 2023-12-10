@@ -20,7 +20,7 @@ const LandingPageCard = (props) => {
         <div className="bg-gray-51 border border-red-101 border-solid flex flex-col items-start justify-start px-5 py-[30px] rounded-bl-[10px] rounded-br-[10px] w-full">
           <div className="flex flex-col gap-[27px] items-start justify-start w-full">
             <div className="flex flex-row gap-3 items-center justify-start w-full">
-              <Img className="h-6 w-6" src="images/img_eye.svg" alt="eye" />
+              <Img className="h-6 w-6" src="/images/img_eye.svg" alt="eye" />
               <Text
                 className="flex-1 text-base text-gray-900 w-auto"
                 size="txtManropeSemiBold16"
@@ -33,7 +33,7 @@ const LandingPageCard = (props) => {
                 <div className="flex flex-1 flex-row gap-3 items-center justify-start w-full">
                   <Img
                     className="h-5 w-5"
-                    src="images/img_bookmark.svg"
+                    src="/images/img_bookmark.svg"
                     alt="bookmark"
                   />
                   <Text
@@ -46,7 +46,7 @@ const LandingPageCard = (props) => {
                 <div className="flex flex-1 flex-row gap-3 items-center justify-start w-full">
                   <Img
                     className="h-5 w-5"
-                    src="images/img_ticket.svg"
+                    src="/images/img_ticket.svg"
                     alt="ticket"
                   />
                   <Text
@@ -61,7 +61,7 @@ const LandingPageCard = (props) => {
                 <div className="flex flex-1 flex-row gap-3 items-center justify-start w-full">
                   <Img
                     className="h-5 w-5"
-                    src="images/img_icon.svg"
+                    src="/images/img_icon.svg"
                     alt="icon"
                   />
                   <Text
@@ -74,7 +74,7 @@ const LandingPageCard = (props) => {
                 <div className="flex flex-1 flex-row gap-3 items-center justify-start w-full">
                   <Img
                     className="h-5 w-5"
-                    src="images/img_settings.svg"
+                    src="/images/img_settings.svg"
                     alt="settings"
                   />
                   <Text
@@ -106,7 +106,7 @@ const LandingPageCard = (props) => {
 };
 
 LandingPageCard.defaultProps = {
-  image: "images/img_image_260x384.png",
+  image: "/images/img_image_260x384.png",
   p286162ndaveoaklone: "2861 62nd Ave, Oakland, CA 94605",
   p3bedroom: "3 Bed Room",
   bathcounter: "1 Bath",

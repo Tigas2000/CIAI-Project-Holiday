@@ -49,7 +49,7 @@ const LandingPagePage = () => {
               <div className="flex md:flex-1 flex-col items-center justify-start w-[47%] md:w-full">
                 <Img
                   className="h-[503px] md:h-auto object-cover w-full"
-                  src="images/img_image.png"
+                  src="/images/img_image.png"
                   alt="image"
                 />
               </div>
@@ -72,7 +72,7 @@ const LandingPagePage = () => {
                   rightIcon={
                     <Img
                       className="h-6 mb-[3px] ml-2"
-                      src="images/img_arrowright.svg"
+                      src="/images/img_arrowright.svg"
                       alt="arrow_right"
                     />
                   }

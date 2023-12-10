@@ -26,7 +26,7 @@ const ResetPasswordModal = (props) => {
                     </Text>
                     <Img
                       className="common-pointer h-[30px] w-[30px]"
-                      src="images/img_close_gray_900.svg"
+                      src="/images/img_close_gray_900.svg"
                       alt="close"
                       onClick={props.onRequestClose}
                     />
@@ -50,7 +50,7 @@ const ResetPasswordModal = (props) => {
                   prefix={
                     <Img
                       className="mt-auto mb-px h-6 mr-3.5"
-                      src="images/img_mail_gray_600_24x24.svg"
+                      src="/images/img_mail_gray_600_24x24.svg"
                       alt="mail"
                     />
                   }

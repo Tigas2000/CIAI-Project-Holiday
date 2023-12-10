@@ -3,7 +3,7 @@ import { Button, GoogleMap, Img, Input, List, Text } from "components";
 import LandingPageHeader from "components/LandingPageHeader";
 import CalendarModal from "modals/CalendarModal";
 import { useLocation } from "react-router-dom";
-import { loadBookedDays, saveBookedDays } from "utils/storage";
+import { loadUnderConsiderationDays, saveUnderConsiderationDays, loadBookedDays, saveBookedDays } from "utils/storage";
 
 const PropertyDetailsPage = ( ...props ) => {
   const propertyLocation = useLocation();
@@ -15,13 +15,39 @@ const PropertyDetailsPage = ( ...props ) => {
   const [apartment, setApartment] = useState({});
   const [reviews, setReviews] = useState([]);
   const [availability, setAvailability] = useState([]);
+  const [underConsiderationDays, setUnderConsiderationDays] = useState([]);
   const [bookedDays, setBookedDays] = useState([]);
   const [isCalendarOpen, setShowCalendar] = useState(false);
 
-  const bookDays = (selectedDays) => {
+  const addUnderConsiderationDays = (selectedDays) => {
+    const updatedUnderConsiderationDays = [...underConsiderationDays, ...selectedDays];
+    setUnderConsiderationDays(updatedUnderConsiderationDays);
+    console.log("ADDED DAYS TO UNDER CONSIDERATION LIST: ", updatedUnderConsiderationDays);
+    saveUnderConsiderationDays(updatedUnderConsiderationDays);
+  };
+
+  const removeUnderConsiderationDays = (selectedDays) => {
+    const updatedUnderConsiderationDays = underConsiderationDays.filter((underConsiderationDate) => {
+      const day = underConsiderationDate.date.getDate();
+      return !selectedDays.includes(day);
+    });
+    console.log("REMOVED UNDER CONSIDERATION DAYS, THIS IS WHAT REMAINS: ", updatedUnderConsiderationDays);
+    setUnderConsiderationDays(updatedUnderConsiderationDays);
+    saveUnderConsiderationDays(updatedUnderConsiderationDays);
+  }
+
+  const confirmBookedDays = (selectedDays) => {
     const updatedBookedDays = [...bookedDays, ...selectedDays];
     setBookedDays(updatedBookedDays);
-    console.log("BOOKED SOME DAYS, THIS IS THE CURRENT LIST: ", updatedBookedDays);
+    console.log("ADDED DAYS TO BOOKED LIST: ", updatedBookedDays);
+    saveBookedDays(updatedBookedDays);
+    removeUnderConsiderationDays(selectedDays);
+  };
+
+  const addBookedDays = (selectedDays) => {
+    const updatedBookedDays = [...bookedDays, ...selectedDays];
+    setBookedDays(updatedBookedDays);
+    console.log("ADDED DAYS TO BOOKED LIST: ", updatedBookedDays);
     saveBookedDays(updatedBookedDays);
   };
 
@@ -446,9 +472,10 @@ const PropertyDetailsPage = ( ...props ) => {
         </div>
         <CalendarModal
         isOpen={isCalendarOpen}
-        onDaysSelect={bookDays}
-        onDaysRemove={removeBookedDays}
-        onRequestClose={closeCalendar} 
+        onDaysSelect={addUnderConsiderationDays}
+        onDaysRemove={removeUnderConsiderationDays}
+        onRequestClose={closeCalendar}
+        underConsiderationDays={underConsiderationDays}
         bookedDays={bookedDays}
         id={id}/>
       </div>
