@@ -1,0 +1,289 @@
+* {
+  box-sizing: border-box;
+  line-height: normal;
+}
+body {
+  font-family: "Roboto", sans-serif !important;
+  margin: 0;
+  padding: 0;
+}
+.dhiwise-code,
+.dhiwise-navigation {
+  min-height: 100%;
+}
+.common-pointer {
+  cursor: pointer;
+}
+.dhiwise-navigation {
+  padding: 20px;
+  background-color: #232323;
+}
+.dhiwise-navigation h1 {
+  color: white;
+}
+.dhiwise-navigation .headline {
+  font-size: 14px;
+  margin-bottom: 10px;
+  color: white;
+}
+.dhiwise-navigation ul {
+  padding: 0;
+}
+.dhiwise-navigation ul li {
+  list-style: none;
+  margin-right: 20px;
+  font-size: 16px;
+  font-weight: bold;
+}
+.dhiwise-navigation a {
+  color: #132cdc;
+}
+table {
+  border-spacing: 0;
+  width: 100%;
+}
+.common-select {
+  z-index: 10000;
+}
+.react-datepicker-popper {
+  z-index: 100000 !important;
+}
+.drawable-icon{
+  position: absolute;
+  margin: auto;
+  z-index: 1000;
+}
+.input-wrap{
+  position: relative;
+}
+option{
+  color: #000;
+}
+.table-wrap{
+  overflow: auto;
+}
+input:focus{
+  outline:none;
+}
+.ReactModal__Body--open{
+  overflow: hidden;
+}
+  .slider-indicator:first-child {
+    margin-left: 0;
+}
+
+.slider-indicator:last-child {
+margin-right: 0;
+}
+
+.rc-drawer-content-wrapper{
+  width: 100% !important;
+}
+.rc-drawer-right .rc-drawer-content-wrapper{
+  display: flex;
+  justify-content: flex-end;
+}
+.rc-drawer-left .rc-drawer-content-wrapper{
+  display: flex;
+  justify-content: flex-start;
+}
+.ReactModal__Overlay{
+  z-index: 1051;
+}
+
+ul li a{
+  display: block;
+}
+
+.mobile-menu div{
+  height: 1.5px;
+  width: 20px;
+  background-color: #000;
+  margin:4px 0;
+}
+.mobile-menu {
+  display: none;
+  cursor: pointer;
+}
+.header-row{
+  align-items:center;
+  justify-content: space-between;
+  display: flex;
+}
+@media only screen and (min-width: 200px) and (max-width: 550px)  {
+  .mobile-menu {
+    display: block;
+  }
+  .header-row{
+    width: 100% !important;
+  }
+  .display-block{
+    display: block;
+  }
+  .display-none{
+    display: none;
+  }
+  .common-row-list > ul{
+    padding-left: 10px;
+    padding-right: 10px;
+    flex-wrap: wrap;
+  }
+}
+.menu-close-icon {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+}
+.menu-overlay{
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  opacity: 0.7;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+}
+.close-line1{
+  transform: translate(0, 6px) rotate(-45deg) skewX(0) skewY(0) scaleX(1) scaleY(1);
+}
+.close-line2{
+  transform: translate(0, 0) rotate(45deg) skewX(0) skewY(0) scaleX(1) scaleY(1);
+}
+.common-row-list > ul{
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+  flex-grow: 1;
+}
+
+.common-column-list > ul{
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+}
+
+.common-column-list li{
+  width: 100%;
+}
+
+/* scroll */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+  background: transparent;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #6b6b6b;
+  border-radius: 10px;
+}
+
+.calendar {
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  margin: auto;
+}
+
+.week-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  font-weight: bold;
+}
+
+.weekday {
+  display: flex;
+  grid-template-columns: repeat(7, 1fr);
+  font-weight: bolder;
+  width: 150px;
+  height: 50px;
+  padding: 10px;
+  border: 2px solid #000000;
+  color: #ddd;
+  background-color: rgba(0, 0, 0, 0.5);
+  margin-bottom: 10px;
+  border-radius: 15px;
+  font-size: larger;
+}
+
+.day {
+  padding: 5px;
+  border: 1px solid #ddd;
+  text-align: center;
+  transition: background-color 0.3s ease;
+  border-radius: 8px;
+}
+
+.month-text {
+  color: white;
+  font-size: 33px;
+  font-weight: bold;
+  position: fixed;
+  font-size: 46px;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1; /* Set a higher z-index to ensure it's above the calendar */
+}
+
+.month-button {
+  background-color: #000000;
+  color: rgb(255, 255, 255);
+  border: none;
+  padding: 15px;
+  cursor: pointer;
+  border-radius: 45px;
+  margin-right: 15px;
+  margin-left: 15px;
+}
+
+
+.hovered {
+  background-color: rgb(107, 117, 119) !important;
+}
+
+.book-button-container {
+  position: absolute;
+  margin-left: 70%;
+  margin-bottom: 10%;
+  background-color: #000000;
+  color: rgb(255, 255, 255);
+  padding: 30px;
+  padding-left: 50px;
+  padding-right: 50px;
+  cursor: pointer;
+  border-radius: 23px;
+  font-size: 25px;
+}
+
+.number-ppl-booking-container {
+  position: absolute;
+  right: 9%; /* Adjust the right distance as needed */
+  bottom: -100%;
+}
+
+
+.white {
+  background-color: white;
+}
+
+.green {
+  background-color: rgb(8, 94, 8);
+}
+
+.yellow {
+  background-color: rgba(255, 255, 0, 0.959);
+}
+
+.orange {
+  background-color: rgb(194, 96, 5);
+}
+
+.red {
+  background-color: red;
+}
