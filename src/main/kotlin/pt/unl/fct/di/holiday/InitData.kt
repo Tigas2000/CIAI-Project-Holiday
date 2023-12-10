@@ -5,7 +5,6 @@ import org.springframework.boot.CommandLineRunner
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Component
 import pt.unl.fct.di.holiday.domain.*
-import java.util.*
 
 @Component
 class InitData(
@@ -20,6 +19,7 @@ class InitData(
 
     fun addUsers() {
         users.saveAll(
+
             listOf(
                 UserDataAccessObject(1, RoleType.CLIENT, "client1", encode("pass")),
                 UserDataAccessObject(2, RoleType.CLIENT, "client2", encode("pass")),
@@ -42,15 +42,16 @@ class InitData(
         events.saveAll(
             listOf(
                 EventDataAccessObject(1, EventType.UNDER_CONSIDERATION, properties.findByName("Casa_da_praia").get(),
-                    users.findByUsername("client1").get(), Date(123, 11, 12), 2),
+                    users.findByUsername("client1").get(), 1231112, 2, ""),
                 EventDataAccessObject(2, EventType.BOOKED, properties.findByName("Casa_da_praia").get(),
-                    users.findByUsername("client2").get(), Date(123, 11, 20), 4),
+                    users.findByUsername("client2").get(), 1231120, 4, ""),
                 )
             )
     }
 
     @Transactional
     override fun run(vararg args: String?) {
+        /*
         addUsers()
         users.findAll().forEach {
             println(it.getInfo())
@@ -63,6 +64,7 @@ class InitData(
         events.findAll().forEach {
             println(it.getInfo())
         }
+        */
     }
 
 

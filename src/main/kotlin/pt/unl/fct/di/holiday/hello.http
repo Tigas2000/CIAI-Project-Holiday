@@ -12,10 +12,14 @@ GET http://localhost:8080/api/getUsers
 Content-Type: application/x-www-form-urlencoded
 
 ###
-POST http://localhost:8080/api/addClient
+POST http://localhost:8080/users/addUser
 Content-Type: application/x-www-form-urlencoded
 
-name = antonio
+"id": 5,
+"role": "CLIENT",
+"username": "newUser",
+"password": "newPassword
+
 
 ###
 
