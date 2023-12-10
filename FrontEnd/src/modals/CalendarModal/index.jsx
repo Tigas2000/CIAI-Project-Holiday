@@ -197,7 +197,7 @@ const CalendarModal = (props) => {
   
       // Remove the unbooked days from the bookedDays state
       const updatedBookedDays = bookedDays.filter((bookedDate) => {
-        const day = bookedDate.getDate();
+        const day = bookedDate.date.getDate();
         return !unbookedDays.includes(day);
       });
   

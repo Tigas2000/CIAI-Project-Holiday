@@ -12,6 +12,7 @@ import {
 } from "components";
 import LandingPageCard from "components/LandingPageCard";
 import LandingPageHeader from "components/LandingPageHeader";
+import Property from "Objects/Property";
 
 
 const dropdownlargeOptionsList = [
@@ -31,38 +32,56 @@ const dropdownlargeOneOptionsList = [
 ];
 
 const ListingPage = () => {
+  const [properties, setProperties] = useState([]);
 
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top on component mount
   }, []);
 
+  /* useEffect(() => {                        // Fetch properties
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/path/to/properties.json");
+        const data = await response.json();
+        setProperties(data);
+      } catch (error) {
+        
+        console.error("Error fetching properties:", error);
+      }
+    };
+
+    fetchData();
+  }, []); */   
+  
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Generating 5 random properties for now
+        const randomProperties = Array.from({ length: 5 }, generateRandomProperty);
+        setProperties(randomProperties);
+      } catch (error) {
+        console.error("Error fetching properties:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const landingPageCardPropList = [
-    { image: "images/img_image_1.png" },
-    { image: "images/img_image_3.png" },
-    { image: "images/img_image_4.png" },
-    { image: "images/img_image_5.png" },
-    { image: "images/img_image_2.png" },
-    { image: "images/img_image_1.png" },
-    { image: "images/img_image_3.png" },
-    { image: "images/img_image_2.png" },
-    { image: "images/img_image_4.png" },
-    { image: "images/img_image_5.png" },
-    { image: "images/img_image_2.png" },
-    { image: "images/img_image_1.png" },
-    { image: "images/img_image_5.png" },
-    { image: "images/img_image_3.png" },
-    { image: "images/img_image_4.png" },
-    { image: "images/img_image_5.png" },
-    { image: "images/img_image_2.png" },
-    { image: "images/img_image_1.png" },
-    { image: "images/img_image_3.png" },
-    { image: "images/img_image_3.png" },
-    { image: "images/img_image_4.png" },
-    { image: "images/img_image_5.png" },
-    { image: "images/img_image_2.png" },
-    { image: "images/img_image_1.png" },
-    { image: "images/img_image_3.png" },
+    { image: "images/img_image_1.png", property: properties[0] },
+    { image: "images/img_image_2.png", property: properties[1] },
+    { image: "images/img_image_3.png", property: properties[2] },
+    { image: "images/img_image_4.png", property: properties[3] },
+    { image: "images/img_image_5.png", property: properties[4] },
   ];
+
+  const generateRandomProperty = () => ({
+    id: Math.floor(Math.random() * 1000),
+    name: `Property ${Math.floor(Math.random() * 100)}`,
+    location: `Location ${Math.floor(Math.random() * 100)}`,
+    owner: `Owner ${Math.floor(Math.random() * 100)}`,
+  });
 
   const propertiesPerPage = 9;
   const totalItems = landingPageCardPropList.length;
