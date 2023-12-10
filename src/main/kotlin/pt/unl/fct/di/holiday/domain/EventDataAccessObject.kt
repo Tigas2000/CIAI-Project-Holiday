@@ -1,7 +1,6 @@
 package pt.unl.fct.di.holiday.domain
 
-import jakarta.persistence.*
-import java.util.*
+import javax.persistence.*
 
 
 enum class EventType {

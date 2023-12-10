@@ -1,6 +1,6 @@
 package pt.unl.fct.di.holiday.domain
 
-import jakarta.persistence.*
+import javax.persistence.*
 
 
 @Entity

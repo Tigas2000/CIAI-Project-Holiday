@@ -1,6 +1,5 @@
 package pt.unl.fct.di.holiday
 
-import jakarta.transaction.Transactional
 import org.springframework.boot.CommandLineRunner
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Component
@@ -49,7 +48,6 @@ class InitData(
             )
     }
 
-    @Transactional
     override fun run(vararg args: String?) {
         /*
         addUsers()

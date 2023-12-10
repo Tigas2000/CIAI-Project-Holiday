@@ -57,6 +57,58 @@ const properties = [
 ]
 
 const ListingPage = () => {
+  const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to the top on component mount
+  }, []);
+
+  /* useEffect(() => {                        // Fetch properties
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/path/to/properties.json");
+        const data = await response.json();
+        setProperties(data);
+      } catch (error) {
+        
+        console.error("Error fetching properties:", error);
+      }
+    };
+
+    fetchData();
+  }, []); */   
+  
+  
+  const generateRandomProperty = () => ({
+    id: Math.floor(Math.random() * 1000),
+    name: `Property ${Math.floor(Math.random() * 100)}`,
+    location: `Location ${Math.floor(Math.random() * 100)}`,
+    owner: `Owner ${Math.floor(Math.random() * 100)}`,
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Simulating a delay with setTimeout
+        setTimeout(() => {
+          // Generating 5 random properties for now
+          const randomProperties = Array.from({ length: 20 }, generateRandomProperty);
+          console.log(`NEW RANDOM PROPERTIES`, randomProperties);
+          setProperties(randomProperties);
+          setLoading(false); // Set loading to false after properties are fetched
+        }, 1000);
+      } catch (error) {
+        console.error("Error fetching properties:", error);
+        setLoading(false); // Handle loading state in case of an error
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
   const propertiesPerPage = 9;
   const totalItems = properties.length;
   const totalPages = Math.ceil(totalItems / propertiesPerPage);
@@ -79,6 +131,30 @@ const ListingPage = () => {
     setDisplayedProperties(properties.slice(startIndex, endIndex));
   }, [properties, startIndex, endIndex]);
 
+  const [propertyList, setPropertyList] = useState([]);
+  useEffect(() => {
+    const fetchPropertyList = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/properties/list");
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          setPropertyList(data);
+        } else {
+          console.error("Failed to fetch property list");
+        }
+      } catch (error) {
+        console.error("Error during fetch:", error);
+      }
+    };
+
+    fetchPropertyList();
+  }, []);
+
+  if (!propertyList || propertyList.length === 0) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <div className="bg-gray-51 flex flex-col font-markoone sm:gap-10 md:gap-10 gap-[100px] items-start justify-start mx-auto w-auto sm:w-full md:w-full">
@@ -92,117 +168,17 @@ const ListingPage = () => {
               >
                 Find Property
               </Text>
-              <div className="flex flex-col gap-3 items-start justify-start w-full">
-                <div className="flex md:flex-col flex-row gap-5 items-start justify-start w-full">
-                  <div className="bg-white-A700 border border-bluegray-100 border-solid flex flex-1 flex-col h-[60px] md:h-auto items-start justify-start px-4 py-3.5 rounded-[10px] w-full">
-                    <Input
-                      name="frame1000001565"
-                      placeholder="Enter your address"
-                      className="font-semibold p-0 placeholder:text-gray-700 text-gray-700 text-left text-lg w-full"
-                      wrapClassName="flex pt-1 w-auto sm:w-full"
-                      suffix={
-                        <Img
-                          className="mt-auto mb-[3px] h-6 ml-3"
-                          src="/images/img_search_gray_700.svg"
-                          alt="search"
-                        />
-                      }
-                    ></Input>
-                  </div>
-                  <div className="flex sm:flex-1 flex-col items-start justify-start w-auto sm:w-full">
-                    <SelectBox
-                      className="bg-white-A700 border border-bluegray-100 border-solid font-bold pb-3.5 pt-[18px] px-4 rounded-[10px] text-gray-700 text-left text-lg w-full"
-                      placeholderClassName="text-gray-700"
-                      indicator={
-                        <Img
-                          className="h-6 w-6"
-                          src="/images/img_arrowdown_gray_700.svg"
-                          alt="arrow_down"
-                        />
-                      }
-                      isMulti={false}
-                      name="dropdownlarge"
-                      options={dropdownlargeOptionsList}
-                      isSearchable={false}
-                      placeholder="Buy"
-                    />
-                  </div>
-                  <SelectBox
-                    className="bg-white-A700 border border-bluegray-100 border-solid md:flex-1 font-bold px-4 py-[17px] rounded-[10px] text-gray-700 text-left text-lg w-[18%] md:w-full"
-                    placeholderClassName="text-gray-700"
-                    indicator={
-                      <Img
-                        className="h-6 w-6"
-                        src="/images/img_arrowdown_gray_700.svg"
-                        alt="arrow_down"
-                      />
-                    }
-                    isMulti={false}
-                    name="price"
-                    options={priceOptionsList}
-                    isSearchable={false}
-                    placeholder="$15000 - $18000"
-                  />
-                  <SelectBox
-                    className="bg-white-A700 border border-bluegray-100 border-solid md:flex-1 font-bold px-4 py-[17px] rounded-[10px] text-gray-700 text-left text-lg w-[11%] md:w-full"
-                    placeholderClassName="text-gray-700"
-                    indicator={
-                      <Img
-                        className="h-6 w-6"
-                        src="/images/img_arrowdown_gray_700.svg"
-                        alt="arrow_down"
-                      />
-                    }
-                    isMulti={false}
-                    name="dropdownlarge_One"
-                    options={dropdownlargeOneOptionsList}
-                    isSearchable={false}
-                    placeholder="Bed - 3"
-                  />
-                  <Button
-                    className="bg-white-A700 border border-bluegray-100 border-solid cursor-pointer flex items-center justify-center min-w-[113px] px-[15px] py-[17px] rounded-[10px]"
-                    rightIcon={
-                      <Img
-                        className="h-6 mb-px ml-3"
-                        src="/images/img_plus_gray_700.svg"
-                        alt="plus"
-                      />
-                    }
-                  >
-                    <div className="font-bold text-gray-700 text-left text-lg">
-                      More
-                    </div>
-                  </Button>
-                  <Button
-                    className="bg-gray-900 cursor-pointer flex items-center justify-center min-w-[124px] px-4 py-[17px] rounded-[10px]"
-                    rightIcon={
-                      <Img
-                        className="h-5 mt-px mb-[3px] ml-2.5"
-                        src="/images/img_search_white_a700.svg"
-                        alt="search"
-                      />
-                    }
-                  >
-                    <div className="font-bold text-left text-lg text-white-A700">
-                      Search
-                    </div>
-                  </Button>
-                </div>
-              </div>
+              
             </div>
           </div>
           <div className="flex flex-col font-manrope items-center justify-center md:px-10 sm:px-5 px-[120px] w-full">
             <div className="flex flex-col md:gap-10 gap-[60px] items-center justify-start max-w-[1200px] mx-auto w-full">
                 <div className="flex flex-col items-start justify-start w-full">
                   <div className="md:gap-5 gap-6 grid sm:grid-cols-1 md:grid-cols-2 grid-cols-3 justify-center min-h-[auto] w-full">
-                    {displayedProperties.map((props, index) => (
-                      <React.Fragment key={`LandingPageCard${index}`}>
-                        <LandingPageCard
-                          className="flex flex-1 flex-col h-[512px] md:h-auto items-start justify-start w-full"
-                          property={props}
-                          {...props}
-                        />
-                      </React.Fragment>
+                  {propertyList.map((property, id) => (
+                  <React.Fragment key={`LandingPageCard${id}`}>
+                    <LandingPageCard property={property} />
+                  </React.Fragment>
                     ))}
                   </div>
                 </div>

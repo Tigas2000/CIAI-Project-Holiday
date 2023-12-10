@@ -1,7 +1,7 @@
 package pt.unl.fct.di.holiday.domain
 
-import jakarta.persistence.*
 import org.hibernate.Hibernate
+import javax.persistence.*
 
 enum class RoleType {
     CLIENT, OWNER, MANAGER;

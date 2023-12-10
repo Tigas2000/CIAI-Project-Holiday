@@ -1,4 +1,4 @@
-import React from "react";
+import React,   { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -18,6 +18,31 @@ const LandingPagePage = () => {
     { image: "images/img_image_5.png" },
     { image: "images/img_image_6.png" },
   ];
+
+  const [propertyList, setPropertyList] = useState([]);
+
+  useEffect(() => {
+    const fetchPropertyList = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/properties/list");
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          setPropertyList(data);
+        } else {
+          console.error("Failed to fetch property list");
+        }
+      } catch (error) {
+        console.error("Error during fetch:", error);
+      }
+    };
+
+    fetchPropertyList();
+  }, []);
+
+  if (!propertyList || propertyList.length === 0) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
@@ -85,13 +110,10 @@ const LandingPagePage = () => {
             </div>
             <div className="flex flex-col items-start justify-start w-full">
               <div className="md:gap-5 gap-6 grid sm:grid-cols-1 md:grid-cols-2 grid-cols-3 justify-center min-h-[auto] w-full">
-                {landingPageCardPropList.map((props, index) => (
-                  <React.Fragment key={`LandingPageCard${index}`}>
-                    <LandingPageCard
-                      className="flex flex-1 flex-col h-full items-start justify-start w-full"
-                      {...props}
-                    />
-                  </React.Fragment>
+              {propertyList.map((property, id) => (
+              <React.Fragment key={`LandingPageCard${id}`}>
+                <LandingPageCard property={property} />
+              </React.Fragment>
                 ))}
               </div>
             </div>

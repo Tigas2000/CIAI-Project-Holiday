@@ -2,22 +2,27 @@ import React, { useState, useEffect } from "react";
 import { Button, GoogleMap, Img, Input, List, Text } from "components";
 import LandingPageHeader from "components/LandingPageHeader";
 import CalendarModal from "modals/CalendarModal";
+import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { loadUnderConsiderationDays, saveUnderConsiderationDays, loadBookedDays, saveBookedDays } from "utils/storage";
 
 const PropertyDetailsPage = ( ...props ) => {
   const propertyLocation = useLocation();
-  const property = propertyLocation.state?.property;
-  console.log(`PROPERTY`, property);
-  const id = property?.id;
-  const name = property.name;
-  const owner = property.owner;
+  
+  
+  
   const [apartment, setApartment] = useState({});
   const [reviews, setReviews] = useState([]);
   const [availability, setAvailability] = useState([]);
   const [underConsiderationDays, setUnderConsiderationDays] = useState([]);
   const [bookedDays, setBookedDays] = useState([]);
   const [isCalendarOpen, setShowCalendar] = useState(false);
+
+  const [property, setProperty] = useState([]);
+  const { id } = useParams();
+
+  console.log(`PROPERTY`, property);
+
 
   // Add to U_C
   const addUnderConsiderationDays = (selectedDays) => {
@@ -108,6 +113,31 @@ const PropertyDetailsPage = ( ...props ) => {
     console.log("days", days);
     return days;
   };
+  
+  
+  
+
+
+  useEffect(() => {
+    // Fetch property details from your backend based on the id
+    const fetchPropertyDetails = async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/properties/property/${id}`);
+        if (response.ok) {
+          const propertyData = await response.json();
+          setProperty(propertyData);
+          // You can update reviews and availability similarly
+        } else {
+          console.error(`Failed to fetch property details: ${response.status}`);
+        }
+      } catch (error) {
+        console.error("Error fetching property details:", error);
+      }
+    };
+
+    fetchPropertyDetails();
+  }, [id]);
+
 
   return (
     <>
@@ -162,206 +192,21 @@ const PropertyDetailsPage = ( ...props ) => {
                             className="leading-[135.00%] max-w-[712px] md:max-w-full sm:text-2xl md:text-[26px] text-[28px] text-gray-900 tracking-[-0.56px]"
                             size="txtManropeExtraBold28"
                           >
-                            Trovilla Plan in Sereno Canyon - Estate Collection
-                            by Toll Brothers
-                            {apartment.name}
+                            {property.name}
                             
                           </Text>
+                          <div className="flex flex-1 flex-row gap-3 items-center justify-start w-full">
+                            <Img className="h-6 w-6" src="/images/img_eye.svg" alt="eye" />
                           <Text
                             className="text-gray-900 text-xl tracking-[-0.40px] w-full"
                             size="txtManropeSemiBold20Gray900"
                           >
-                            2861 62nd Ave, Oakland, CA 94605
-                            {apartment.location}
+                            {property.location}
                           </Text>
-                        </div>
-                        <div className="flex sm:flex-col flex-row gap-4 items-start justify-start md:pr-10 sm:pr-5 pr-[180px] w-full">
-                          <div className="bg-white-A700 border border-gray-600 border-solid flex flex-1 flex-col items-center justify-center sm:px-5 px-6 py-[7px] rounded-[10px] w-full">
-                            <div className="flex flex-col gap-1 items-start justify-start w-full">
-                              <Text
-                                className="text-2xl md:text-[22px] text-gray-900 sm:text-xl tracking-[-0.48px] w-full"
-                                size="txtManropeBold24Gray900"
-                              >
-                                $649,900
-                              </Text>
-                              <Text
-                                className="text-gray-600 text-xs w-full"
-                                size="txtManropeSemiBold12"
-                              >
-                                Online / Cash Payment
-                              </Text>
-                            </div>
                           </div>
-                          <div className="bg-white-A700 border border-bluegray-100 border-solid flex flex-1 flex-col items-center justify-center sm:px-5 px-6 py-[7px] rounded-[10px] w-full">
-                            <div className="flex flex-col gap-1 items-start justify-start w-full">
-                              <Text
-                                className="text-2xl md:text-[22px] text-gray-900 sm:text-xl tracking-[-0.48px] w-full"
-                                size="txtManropeBold24Gray900"
-                              >
-                                $850 / month
-                              </Text>
-                              <Text
-                                className="text-gray-600 text-xs w-full"
-                                size="txtManropeSemiBold12"
-                              >
-                                0% EMI for 6 Months
-                              </Text>
-                            </div>
-                          </div>
+                          
                         </div>
                       </div>
-                      <div className="flex flex-col gap-4 items-start justify-start w-full">
-                        <Text
-                          className="text-gray-900 text-xl tracking-[-0.40px] w-full"
-                          size="txtManropeSemiBold20Gray900"
-                        >
-                          Well-constructed 1562 Sq Ft Home Is Now Offering To
-                          You In Uttara For Sale
-                        </Text>
-                        <Text
-                          className="leading-[180.00%] max-w-[712px] md:max-w-full text-gray-600 text-lg"
-                          size="txtManropeRegular18Gray600"
-                        >
-                        </Text>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="bg-white-A700 border border-bluegray-100 border-solid flex flex-col items-start justify-start p-10 sm:px-5 rounded-[10px] w-full">
-                    <div className="flex flex-col gap-6 items-start justify-start w-full">
-                      <Text
-                        className="sm:text-2xl md:text-[26px] text-[28px] text-gray-900 tracking-[-0.56px] w-auto"
-                        size="txtManropeExtraBold28"
-                      >
-                        Home Highlights
-                      </Text>
-                      <List
-                        className="sm:flex-col flex-row md:gap-10 gap-[150px] grid md:grid-cols-1 grid-cols-2 justify-start w-full"
-                        orientation="horizontal"
-                      >
-                        <div className="flex flex-1 flex-col gap-2.5 items-start justify-start w-full">
-                          <div className="flex flex-row gap-[55px] items-start justify-start w-full">
-                            <div className="flex flex-1 flex-row gap-2.5 items-center justify-start w-full">
-                              <div className="bg-gray-600 h-2 rounded-[50%] w-2"></div>
-                              <Text
-                                className="flex-1 text-gray-600 text-lg w-auto"
-                                size="txtManropeRegular18Gray600"
-                              >
-                                Parking
-                              </Text>
-                            </div>
-                            <Text
-                              className="flex-1 text-gray-900 text-lg text-right w-auto"
-                              size="txtManropeSemiBold18"
-                            >
-                              No Info
-                            </Text>
-                          </div>
-                          <div className="flex flex-row gap-[47px] items-start justify-start w-full">
-                            <div className="flex flex-1 flex-row gap-2.5 items-center justify-start w-full">
-                              <div className="bg-gray-600 h-2 rounded-[50%] w-2"></div>
-                              <Text
-                                className="flex-1 text-gray-600 text-lg w-auto"
-                                size="txtManropeRegular18Gray600"
-                              >
-                                Outdoor
-                              </Text>
-                            </div>
-                            <Text
-                              className="flex-1 text-gray-900 text-lg text-right w-auto"
-                              size="txtManropeSemiBold18"
-                            >
-                              No Info
-                            </Text>
-                          </div>
-                          <div className="flex flex-row gap-[85px] items-start justify-start w-full">
-                            <div className="flex flex-1 flex-row gap-2.5 items-center justify-start w-full">
-                              <div className="bg-gray-600 h-2 rounded-[50%] w-2"></div>
-                              <Text
-                                className="flex-1 text-gray-600 text-lg w-auto"
-                                size="txtManropeRegular18Gray600"
-                              >
-                                A/C
-                              </Text>
-                            </div>
-                            <Text
-                              className="flex-1 text-gray-900 text-lg text-right w-auto"
-                              size="txtManropeSemiBold18"
-                            >
-                              No Info
-                            </Text>
-                          </div>
-                          <div className="flex flex-row gap-10 items-start justify-start w-full">
-                            <div className="flex flex-1 flex-row gap-2.5 items-center justify-start w-full">
-                              <div className="bg-gray-600 h-2 rounded-[50%] w-2"></div>
-                              <Text
-                                className="flex-1 text-gray-600 text-lg w-auto"
-                                size="txtManropeRegular18Gray600"
-                              >
-                                Year Built
-                              </Text>
-                            </div>
-                            <Text
-                              className="flex-1 text-gray-900 text-lg text-right w-auto"
-                              size="txtManropeSemiBold18"
-                            >
-                              2021
-                            </Text>
-                          </div>
-                        </div>
-                        <div className="flex flex-1 flex-col gap-2.5 items-start justify-start w-full">
-                          <div className="flex flex-row gap-20 items-start justify-start w-full">
-                            <div className="flex flex-1 flex-row gap-2.5 items-center justify-start w-full">
-                              <div className="bg-gray-600 h-2 rounded-[50%] w-2"></div>
-                              <Text
-                                className="flex-1 text-gray-600 text-lg w-auto"
-                                size="txtManropeRegular18Gray600"
-                              >
-                                HOA
-                              </Text>
-                            </div>
-                            <Text
-                              className="flex-1 text-gray-900 text-lg text-right w-auto"
-                              size="txtManropeSemiBold18"
-                            >
-                              None
-                            </Text>
-                          </div>
-                          <div className="flex flex-row gap-8 items-start justify-start w-full">
-                            <div className="flex flex-1 flex-row gap-2.5 items-center justify-start w-full">
-                              <div className="bg-gray-600 h-2 rounded-[50%] w-2"></div>
-                              <Text
-                                className="flex-1 text-gray-600 text-lg w-auto"
-                                size="txtManropeRegular18Gray600"
-                              >
-                                Price/Sqft
-                              </Text>
-                            </div>
-                            <Text
-                              className="flex-1 text-gray-900 text-lg text-right w-auto"
-                              size="txtManropeSemiBold18"
-                            >
-                              $560
-                            </Text>
-                          </div>
-                          <div className="flex flex-row gap-[66px] items-start justify-start w-full">
-                            <div className="flex flex-1 flex-row gap-2.5 items-center justify-start w-full">
-                              <div className="bg-gray-600 h-2 rounded-[50%] w-2"></div>
-                              <Text
-                                className="flex-1 text-gray-600 text-lg w-auto"
-                                size="txtManropeRegular18Gray600"
-                              >
-                                Listed
-                              </Text>
-                            </div>
-                            <Text
-                              className="flex-1 text-gray-900 text-lg text-right w-auto"
-                              size="txtManropeSemiBold18"
-                            >
-                              No Info
-                            </Text>
-                          </div>
-                        </div>
-                      </List>
                     </div>
                   </div>
                   <div className="bg-white-A700 border border-bluegray-100 border-solid flex flex-col items-start justify-start p-10 sm:px-5 rounded-[10px] w-full">
@@ -370,58 +215,16 @@ const PropertyDetailsPage = ( ...props ) => {
                         className="sm:text-2xl md:text-[26px] text-[28px] text-gray-900 tracking-[-0.56px] w-full"
                         size="txtManropeExtraBold28"
                       >
-                        Apartment Reviews
+                        Property Owner
                       </Text>
                       <div className="flex flex-col gap-[3px] items-start justify-start w-auto">
                         <Text
                           className="text-gray-900 text-xl tracking-[-0.40px] w-auto"
                           size="txtManropeSemiBold20Gray900"
                         >
-                          Bruno Fernandes
+                          {property.owner}
                         </Text>
-                        <div className="flex flex-row gap-3.5 items-center justify-start w-full">
-                          <div className="flex flex-row gap-1 items-start justify-start w-auto">
-                            <Img
-                              className="h-4 w-4"
-                              src="/images/img_star.svg"
-                              alt="star"
-                            />
-                            <Img
-                              className="h-4 w-4"
-                              src="/images/img_star.svg"
-                              alt="star_One"
-                            />
-                            <Img
-                              className="h-4 w-4"
-                              src="/images/img_star.svg"
-                              alt="star_Two"
-                            />
-                            <Img
-                              className="h-4 w-4"
-                              src="/images/img_star.svg"
-                              alt="star_Three"
-                            />
-                            <Img
-                              className="h-4 w-4"
-                              src="/images/img_star_gray_600.svg"
-                              alt="star_Four"
-                            />
-                          </div>
-                          <Text
-                            className="text-base text-gray-900 w-auto"
-                            size="txtManropeSemiBold16"
-                          >
-                            4 review
-                          </Text>
-                        </div>
-                        <div className="flex flex-row gap-2.5 items-center justify-start w-full">
-                          <Text
-                            className="text-base text-gray-600 w-auto"
-                            size="txtManropeMedium16"
-                          >
-                            meh review
-                          </Text>
-                        </div>
+                      
                         <div className="flex flex-row gap-2.5 items-center justify-start w-full">
                         </div>
                       </div>

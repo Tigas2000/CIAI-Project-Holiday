@@ -6,17 +6,24 @@ import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
-import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter
 import org.springframework.web.filter.GenericFilterBean
 import pt.unl.fct.di.holiday.domain.UserDataAccessObject
 import pt.unl.fct.di.holiday.services.UserService
+import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.core.userdetails.User
+import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.provisioning.InMemoryUserDetailsManager
 import java.util.*
+import javax.servlet.FilterChain
+import javax.servlet.ServletRequest
+import javax.servlet.ServletResponse
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
+import kotlin.collections.HashMap
 
 object JWTSecret {
     private const val passphrase = "segredo bastante secreto"
@@ -25,7 +32,7 @@ object JWTSecret {
     const val VALIDITY = 1000 * 60 * 60 * 24 // 24 hours in milliseconds
 }
 
-private fun addResponseToken(authentication: Authentication, response: jakarta.servlet.http.HttpServletResponse) {
+private fun addResponseToken(authentication: Authentication, response: HttpServletResponse) {
 
     val claims = HashMap<String, Any?>()
     claims["username"] = authentication.name
@@ -61,8 +68,8 @@ class UserPasswordAuthenticationFilterToJWT (
     private val anAuthenticationManager: AuthenticationManager
 ) : AbstractAuthenticationProcessingFilter(defaultFilterProcessesUrl) {
 
-    override fun attemptAuthentication(request: jakarta.servlet.http.HttpServletRequest?,
-                                       response: jakarta.servlet.http.HttpServletResponse?): Authentication? {
+    override fun attemptAuthentication(request: HttpServletRequest?,
+                                       response: HttpServletResponse?): Authentication? {
         //getting user from request body
         val u = ObjectMapper().readValue(request!!.inputStream, UserJWTLoginRequest::class.java)
 
@@ -77,9 +84,9 @@ class UserPasswordAuthenticationFilterToJWT (
             null
     }
 
-    override fun successfulAuthentication(request: jakarta.servlet.http.HttpServletRequest,
-                                          response: jakarta.servlet.http.HttpServletResponse,
-                                          filterChain: jakarta.servlet.FilterChain?,
+    override fun successfulAuthentication(request: HttpServletRequest,
+                                          response: HttpServletResponse,
+                                          filterChain: FilterChain?,
                                           auth: Authentication) {
 
         // When returning from the Filter loop, add the token to the response
@@ -105,9 +112,12 @@ class UserAuthToken(private val user : UserDataAccessObject) : Authentication {
 }
 
 class JWTAuthenticationFilter(val users: UserService): GenericFilterBean() {
-    override fun doFilter(request: jakarta.servlet.ServletRequest?,
-                          response: jakarta.servlet.ServletResponse?,
-                          chain: jakarta.servlet.FilterChain?) {
+
+    // To try it out, go to https://jwt.io to generate custom tokens, in this case we only need a name...
+
+    override fun doFilter(request: ServletRequest?,
+                          response: ServletResponse?,
+                          chain: FilterChain?) {
         println((request as HttpServletRequest).headerNames.toList())
 
         val authHeader = (request).getHeader("Authorization")
@@ -133,7 +143,7 @@ class JWTAuthenticationFilter(val users: UserService): GenericFilterBean() {
                 SecurityContextHolder.getContext().authentication = authentication
 
                 // Renew token with extended time here. (before doFilter)
-                addResponseToken(authentication, response as jakarta.servlet.http.HttpServletResponse)
+                addResponseToken(authentication, response as HttpServletResponse)
 
                 chain!!.doFilter(request, response)
             }
@@ -159,30 +169,29 @@ class JWTAuthenticationFilter(val users: UserService): GenericFilterBean() {
 
 
 class UserJWTSignupRequest(
-    var name: String,
     var username: String,
-    var email: String,
     var password: String
 ) {
-    constructor() : this("","", "", "")
+    constructor() : this( "", "")
 
     override fun toString(): String {
         return this::class.simpleName + "(username = $username, password = $password)"
     }
 }
 
-class UserPasswordSignUpFilterToJWT ( //17:45 lab session 6
+class UserPasswordSignUpFilterToJWT (
     defaultFilterProcessesUrl: String?,
     private val users: UserService
 ) : AbstractAuthenticationProcessingFilter(defaultFilterProcessesUrl) {
 
-    override fun attemptAuthentication(request: jakarta.servlet.http.HttpServletRequest?,
-                                       response: jakarta.servlet.http.HttpServletResponse?): Authentication? {
+    override fun attemptAuthentication(request: HttpServletRequest?,
+                                       response: HttpServletResponse?): Authentication? {
         //getting user from request body
         val u = ObjectMapper().readValue(request!!.inputStream, UserJWTSignupRequest::class.java)
 
+        //println(u)
 
-        val user = users.getUserByUsername(u.username)
+        val user = UserDataAccessObject(u.username,BCryptPasswordEncoder().encode(u.password))
 
         //println(user)
 
@@ -196,11 +205,12 @@ class UserPasswordSignUpFilterToJWT ( //17:45 lab session 6
             }
     }
 
-    override fun successfulAuthentication(request: jakarta.servlet.http.HttpServletRequest,
-                                          response: jakarta.servlet.http.HttpServletResponse,
-                                          filterChain: jakarta.servlet.FilterChain?,
+    override fun successfulAuthentication(request: HttpServletRequest,
+                                          response: HttpServletResponse,
+                                          filterChain: FilterChain?,
                                           auth: Authentication) {
 
         addResponseToken(auth, response)
     }
 }
+

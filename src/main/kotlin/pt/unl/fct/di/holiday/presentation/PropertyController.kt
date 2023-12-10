@@ -6,7 +6,7 @@ import pt.unl.fct.di.holiday.domain.PropertyDataAccessObject
 import pt.unl.fct.di.holiday.services.PropertyService
 import pt.unl.fct.di.holiday.services.UserService
 
-data class Property(
+data class PropertyData(
     val name: String,
     val location: String,
     val owner: String
@@ -61,15 +61,6 @@ class PropertyController(val propertyService: PropertyService, val users: UserSe
             throw Exception("Name ${property.name} is already being used in the system for a property.")
         }
         throw Exception("User with username ${property.owner} isn't in the system.")
-    }
-
-    override fun addProperty(property: Property) {
-        if(users.alreadyHasUsername(property.owner)) {
-            propertyService.addProperty(
-                PropertyDataAccessObject(propertyService.getNewId(), property.name,
-                    property.location, users.getUserByUsername(property.owner))
-            )
-        }
     }
 
 }

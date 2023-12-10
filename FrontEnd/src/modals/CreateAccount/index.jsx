@@ -1,9 +1,41 @@
-import React from "react";
+import React, { useState} from "react";
 import { default as ModalProvider } from "react-modal";
 
-import { Button, CheckBox, Img, Input, Line, Text } from "components";
+import { Button, Img, input, Line, Text } from "components";
 
 const CreateAccountModal = (props) => {
+  
+  let [username, setUsername] = useState('');
+  let [password, setPassword] = useState('');
+
+  const handleCreateAccount = async () => {
+    try {
+      
+      console.log("Username:", username);
+      console.log("Password:", password);
+      
+      const id = 2;
+      const role = "CLIENT";
+
+      const response = await fetch("http://localhost:8080/users/addUser", {
+        method: "POST",
+        mode:"cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id, role, username , password }),
+      });
+
+      if (response.ok) {
+        console.log("Registration successful");
+      } else {
+        console.error("Registration failed");
+      }
+    } catch (error) {
+      console.error("Error during registration:", error);
+    }
+  };
+
   return (
     <ModalProvider
       appElement={document.getElementById("root")}
@@ -32,12 +64,14 @@ const CreateAccountModal = (props) => {
                 </div>
                 <div className="flex md:flex-col flex-row gap-5 items-start justify-start w-full">
                   <div className="flex flex-1 flex-col gap-5 items-start justify-start w-full">
-                    <Input
-                      name="textfieldlarge"
-                      placeholder="user / email address"
-                      className="font-semibold p-0 placeholder:text-gray-600 sm:pr-5 text-gray-600 text-left text-lg w-full"
-                      wrapClassName="bg-white-A700 border border-bluegray-100 border-solid flex pl-4 pr-[35px] py-[17px] rounded-[10px] w-full"
-                      type="email"
+                    <input
+                      id="username"
+                      name="username"
+                      placeholder="Username"
+                      className="font-semibold p-0 placeholder:text-gray-600 sm:pr-5 text-gray-600 text-left text-lg w-full bg-white-A700 border border-bluegray-100 border-solid flex pl-4 pr-[35px] py-[17px] rounded-[10px]"
+                      type="text"
+                      onChange={e => setUsername(e?.target?.value)}
+                      value={username}
                       prefix={
                         <Img
                           className="mt-auto mb-px h-6 mr-3.5"
@@ -45,13 +79,15 @@ const CreateAccountModal = (props) => {
                           alt="user"
                         />
                       }
-                    ></Input>
-                    <Input
-                      name="textfieldlarge_One"
+                    ></input>
+                    <input
+                      id="password"
+                      name="password"
                       placeholder="Password"
-                      className="font-semibold p-0 placeholder:text-gray-600 text-gray-600 text-left text-lg w-full"
-                      wrapClassName="bg-white-A700 border border-bluegray-100 border-solid flex px-4 py-[17px] rounded-[10px] w-full"
+                      className="font-semibold p-0 placeholder:text-gray-600 sm:pr-5 text-gray-600 text-left text-lg w-full bg-white-A700 border border-bluegray-100 border-solid flex pl-4 pr-[35px] py-[17px] rounded-[10px]"
                       type="password"
+                      value={password}
+                      onChange={e => setPassword(e?.target?.value)}
                       prefix={
                         <Img
                           className="mt-auto mb-px h-6 mr-3.5"
@@ -59,43 +95,19 @@ const CreateAccountModal = (props) => {
                           alt="user"
                         />
                       }
-                    ></Input>
+                    ></input>
                   </div>
                   <div className="flex flex-1 flex-col gap-5 items-start justify-start w-full">
-                    <Input
-                      name="textfieldlarge_Two"
-                      placeholder="user / email address"
-                      className="font-semibold p-0 placeholder:text-gray-600 sm:pr-5 text-gray-600 text-left text-lg w-full"
-                      wrapClassName="bg-white-A700 border border-bluegray-100 border-solid flex pl-4 pr-[35px] py-[17px] rounded-[10px] w-full"
-                      type="email"
-                      prefix={
-                        <Img
-                          className="mt-auto mb-px h-6 mr-3.5"
-                          src="/images/img_user.svg"
-                          alt="user"
-                        />
-                      }
-                    ></Input>
-                    <Input
-                      name="textfieldlarge_Three"
-                      placeholder="Password"
-                      className="font-semibold p-0 placeholder:text-gray-600 text-gray-600 text-left text-lg w-full"
-                      wrapClassName="bg-white-A700 border border-bluegray-100 border-solid flex px-4 py-[17px] rounded-[10px] w-full"
-                      type="password"
-                      prefix={
-                        <Img
-                          className="mt-auto mb-px h-6 mr-3.5"
-                          src="/images/img_user_gray_600.svg"
-                          alt="user"
-                        />
-                      }
-                    ></Input>
+                    
+                    
                   </div>
                 </div>
               </div>
             </div>
             <div className="flex flex-col gap-[18px] items-start justify-start w-full">
-              <Button className="bg-gray-900 cursor-pointer font-bold py-4 rounded-[10px] text-center text-lg text-white-A700 w-full">
+              <Button 
+              onClick={handleCreateAccount}
+              className="bg-gray-900 cursor-pointer font-bold py-4 rounded-[10px] text-center text-lg text-white-A700 w-full">
                 Create Account
               </Button>
             </div>
