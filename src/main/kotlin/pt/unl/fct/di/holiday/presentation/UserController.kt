@@ -34,8 +34,12 @@ class UserController(val userService: UserService) : UserAPI {
         var subject = userService.users.findByUsername(user.username)
     }
 
-    override fun getAll(): Iterable<UserDataAccessObject> {
-        return userService.getAllUsers()
+    override fun getAll(): Iterable<UserDataTransferObject> {
+        var users = userService.getAllUsers()
+        var usersTransfer = mutableListOf<UserDataTransferObject>()
+        for(user in users)
+            usersTransfer.add(UserDataTransferObject(user))
+        return usersTransfer
     }
 
     override fun getUser(username: String): UserDataTransferObject {
