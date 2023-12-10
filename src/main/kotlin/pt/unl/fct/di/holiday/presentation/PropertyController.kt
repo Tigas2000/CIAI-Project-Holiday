@@ -1,5 +1,6 @@
 package pt.unl.fct.di.holiday.presentation
 
+import jakarta.el.PropertyNotFoundException
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import pt.unl.fct.di.holiday.domain.PropertyDataAccessObject
@@ -17,12 +18,22 @@ data class PropertyData(
 class PropertyController(val propertyService: PropertyService, val users: UserService) : PropertyAPI {
 
 
+
     override fun getProperty(property: String): PropertyDataTransferObject {
         if(propertyService.hasPropertyName(property)) {
             return PropertyDataTransferObject(propertyService.getPropertyByName(property))
         }
         else {
             throw Exception("Property with name $property isn't in the system.")
+        }
+    }
+
+    override fun getPropertyById(id: Long): PropertyDataTransferObject {
+        if(propertyService.hasPropertyId(id)) {
+            return PropertyDataTransferObject(propertyService.getPropertyById(id))
+        }
+        else {
+            throw PropertyNotFoundException("Property with ID $id isn't in the system.")
         }
     }
 

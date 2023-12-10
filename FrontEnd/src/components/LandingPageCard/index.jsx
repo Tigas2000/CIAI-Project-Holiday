@@ -1,16 +1,41 @@
-import React from "react";
+import React,  { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Img, Text } from "components";
+
 
 const LandingPageCard = (props) => {
   const navigate = useNavigate();
   const property = props?.property;
+  const [propertyList, setPropertyList] = useState([]);
+
+  useEffect(() => {
+    const fetchPropertyList = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/properties/list");
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          setPropertyList(data);
+        } else {
+          console.error("Failed to fetch property list");
+        }
+      } catch (error) {
+        console.error("Error during fetch:", error);
+      }
+    };
+
+    fetchPropertyList();
+  }, []);
+
+  if (!propertyList || propertyList.length === 0) {
+    return <div>Loading...</div>;
+  }
   
   console.log(`PROPERTY`, property);
   console.log(`PROPERTY NAME`, property.name);
   return (
     <>
-      <div className={props.className}>
+      <div className={props?.className}>
         <Img
           className="h-[260px] sm:h-auto object-cover w-full"
           alt="image"
@@ -19,7 +44,6 @@ const LandingPageCard = (props) => {
         <div className="bg-gray-51 border border-red-101 border-solid flex flex-col items-start justify-start px-5 py-[30px] rounded-bl-[10px] rounded-br-[10px] w-full">
           <div className="flex flex-col gap-[27px] items-start justify-start w-full">
             <div className="flex flex-row gap-3 items-center justify-start w-full">
-              <Img className="h-6 w-6" src="images/img_eye.svg" alt="eye" />
               <Text
                 className="flex-1 text-base text-gray-900 w-auto"
                 size="txtManropeSemiBold16"
@@ -86,7 +110,7 @@ const LandingPageCard = (props) => {
               </div>
             </div>
             <div className="flex flex-row gap-[31px] items-center justify-start w-full">
-              <Button onClick={() => navigate(`/PropertyDetails/${property.id}`)} // Pass property ID in the URL
+              <Button onClick={() => navigate(`/PropertyDetails/${property.id}`)}
               className="bg-gray-900 cursor-pointer flex-1 font-manrope font-semibold py-[13px] rounded-[10px] text-base text-center text-white-A700 w-full">
                 {props?.viewDetails}
               </Button>

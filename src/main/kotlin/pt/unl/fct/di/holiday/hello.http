@@ -12,14 +12,40 @@ GET http://localhost:8080/api/getUsers
 Content-Type: application/x-www-form-urlencoded
 
 ###
-POST http://localhost:8080/users/addUser
-Content-Type: application/x-www-form-urlencoded
 
+GET http://localhost:8080/properties/property/1
+Content-Type: application/json
+
+###
+POST http://localhost:8080/users/addUser
+Content-Type: application/json
+
+{
 "id": 5,
 "role": "CLIENT",
 "username": "newUser",
-"password": "newPassword
+"password": "newPassword"
+}
 
+###
+POST http://localhost:8080/users/login
+Content-Type: application/json
+
+{
+"username": "newUser",
+"password": "newPassword"
+}
+
+###
+POST http://localhost:8080/properties/addProperty
+Content-Type: application/json
+
+{
+  "id": 2,
+  "name": "Casa ali",
+  "location": "Almada",
+  "owner": "newUser3"
+}
 
 ###
 

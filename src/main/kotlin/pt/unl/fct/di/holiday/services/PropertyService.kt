@@ -15,11 +15,18 @@ class PropertyService(val properties: PropertyRepository) {
         NotFoundException("Property with name $property not found.")
     }
 
+    fun getPropertyById(id : Long) :
+            PropertyDataAccessObject = properties.findById(id).orElseThrow {
+        NotFoundException("Property with name $id not found.")
+    }
+
     fun getNewId(): Long {
         return properties.count() + 1;
     }
 
     fun hasPropertyName(property: String): Boolean = properties.findByName(property).isPresent
+
+    fun hasPropertyId(id: Long): Boolean = properties.findById(id).isPresent
 
     fun getAllProperties(): Iterable<PropertyDataAccessObject> = properties.findAll()
 
