@@ -8,17 +8,20 @@ import { loadUnderConsiderationDays, saveUnderConsiderationDays, loadBookedDays,
 
 const PropertyDetailsPage = ( ...props ) => {
   const propertyLocation = useLocation();
-  const property = propertyLocation.state?.property;
-  console.log(`PROPERTY`, property);
-  const id = property?.id;
-  const name = property.name;
-  const owner = property.owner;
+  
+  
+  
   const [apartment, setApartment] = useState({});
   const [reviews, setReviews] = useState([]);
   const [availability, setAvailability] = useState([]);
   const [underConsiderationDays, setUnderConsiderationDays] = useState([]);
   const [bookedDays, setBookedDays] = useState([]);
   const [isCalendarOpen, setShowCalendar] = useState(false);
+
+  const [property, setProperty] = useState([]);
+  const { id } = useParams();
+
+  console.log(`PROPERTY`, property);
 
   const addUnderConsiderationDays = (selectedDays) => {
     const updatedUnderConsiderationDays = [...underConsiderationDays, ...selectedDays];
@@ -73,9 +76,9 @@ const PropertyDetailsPage = ( ...props ) => {
     setShowCalendar(false);
   };
 
-  const { id } = useParams();
   
-  const [property, setProperty] = useState([]);
+  
+  
 
   useEffect(() => {
     // Fetch property details from your backend based on the id
@@ -154,12 +157,16 @@ const PropertyDetailsPage = ( ...props ) => {
                             {property.name}
                             
                           </Text>
+                          <div className="flex flex-1 flex-row gap-3 items-center justify-start w-full">
+                            <Img className="h-6 w-6" src="/images/img_eye.svg" alt="eye" />
                           <Text
                             className="text-gray-900 text-xl tracking-[-0.40px] w-full"
                             size="txtManropeSemiBold20Gray900"
                           >
                             {property.location}
                           </Text>
+                          </div>
+                          
                         </div>
                       </div>
                     </div>
