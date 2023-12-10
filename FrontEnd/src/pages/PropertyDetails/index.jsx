@@ -2,19 +2,47 @@ import React, { useState, useEffect } from "react";
 import { Button, GoogleMap, Img, Input, List, Text } from "components";
 import LandingPageHeader from "components/LandingPageHeader";
 import CalendarModal from "modals/CalendarModal";
+import { useLocation } from "react-router-dom";
+import { loadBookedDays, saveBookedDays } from "utils/storage";
 
-const PropertyDetailsPage = ({ match }) => {
+const PropertyDetailsPage = ( ...props ) => {
+  const propertyLocation = useLocation();
+  const property = propertyLocation.state?.property;
+  console.log(`PROPERTY`, property);
+  const id = property?.id;
+  const name = property.name;
+  const owner = property.owner;
   const [apartment, setApartment] = useState({});
   const [reviews, setReviews] = useState([]);
   const [availability, setAvailability] = useState([]);
-
+  const [bookedDays, setBookedDays] = useState([]);
   const [isCalendarOpen, setShowCalendar] = useState(false);
 
+  const bookDays = (selectedDays) => {
+    const updatedBookedDays = [...bookedDays, ...selectedDays];
+    setBookedDays(updatedBookedDays);
+    console.log("BOOKED SOME DAYS, THIS IS THE CURRENT LIST: ", updatedBookedDays);
+    saveBookedDays(updatedBookedDays);
+  };
+
+  const removeBookedDays = (selectedDays) => {
+    const updatedBookedDays = bookedDays.filter((bookedDate) => {
+      const day = bookedDate.date.getDate();
+      return !selectedDays.includes(day);
+    });
+    console.log("REMOVED BOOKED DAYS, THIS IS WHAT REMAINS: ", updatedBookedDays);
+    setBookedDays(updatedBookedDays);
+    saveBookedDays(updatedBookedDays);
+  }
+
   const openCalendar = () => {
+    const loadedBookedDays = loadBookedDays();
+    setBookedDays(loadedBookedDays);
     setShowCalendar(true);
   };
 
   const closeCalendar = () => {
+    saveBookedDays(bookedDays);
     setShowCalendar(false);
   };
 
@@ -416,7 +444,13 @@ const PropertyDetailsPage = ({ match }) => {
           <div className="flex flex-col font-manrope items-center justify-center md:px-10 sm:px-5 px-[120px] w-full">
           </div>
         </div>
-        <CalendarModal isOpen={isCalendarOpen} onRequestClose={closeCalendar} />
+        <CalendarModal
+        isOpen={isCalendarOpen}
+        onDaysSelect={bookDays}
+        onDaysRemove={removeBookedDays}
+        onRequestClose={closeCalendar} 
+        bookedDays={bookedDays}
+        id={id}/>
       </div>
     </>
   );

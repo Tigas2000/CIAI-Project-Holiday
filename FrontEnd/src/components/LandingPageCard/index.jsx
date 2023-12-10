@@ -5,6 +5,7 @@ import { Button, Img, Text } from "components";
 const LandingPageCard = (props) => {
   const navigate = useNavigate();
   const property = props?.property;
+
   
   console.log(`PROPERTY`, property);
   console.log(`PROPERTY NAME`, property?.name);
@@ -86,7 +87,7 @@ const LandingPageCard = (props) => {
               </div>
             </div>
             <div className="flex flex-row gap-[31px] items-center justify-start w-full">
-              <Button onClick={() => navigate(`/PropertyDetails/${property.id}`)} // Pass property ID in the URL
+            <Button onClick={() => navigate(`/PropertyDetails/${property.id}`, { state: { property } })}
               className="bg-gray-900 cursor-pointer flex-1 font-manrope font-semibold py-[13px] rounded-[10px] text-base text-center text-white-A700 w-full">
                 {props?.viewDetails}
               </Button>

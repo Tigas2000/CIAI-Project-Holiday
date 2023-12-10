@@ -1,6 +1,5 @@
 import React, { useState, useEffect  } from "react";
 
-
 import {
   Button,
   GoogleMap,
@@ -30,59 +29,45 @@ const dropdownlargeOneOptionsList = [
   { label: "Option3", value: "option3" },
 ];
 
+const properties = [
+  {id: 1, name: 'Property 1', location: 'Location 1', owner: 'Owner 1'},
+  {id: 2, name: 'Property 2', location: 'Location 2', owner: 'Owner 2'},
+  {id: 3, name: 'Property 3', location: 'Location 3', owner: 'Owner 3'},
+  {id: 4, name: 'Property 4', location: 'Location 4', owner: 'Owner 4'},
+  {id: 5, name: 'Property 5', location: 'Location 5', owner: 'Owner 5'},
+  {id: 6, name: 'Property 6', location: 'Location 6', owner: 'Owner 6'},
+  {id: 7, name: 'Property 7', location: 'Location 7', owner: 'Owner 7'},
+  {id: 8, name: 'Property 8', location: 'Location 8', owner: 'Owner 8'},
+  {id: 9, name: 'Property 9', location: 'Location 9', owner: 'Owner 9'},
+  {id: 10, name: 'Property 10', location: 'Location 10', owner: 'Owner 10'},
+  {id: 11, name: 'Property 11', location: 'Location 11', owner: 'Owner 11'},
+  {id: 12, name: 'Property 12', location: 'Location 12', owner: 'Owner 12'},
+  {id: 13, name: 'Property 13', location: 'Location 13', owner: 'Owner 13'},
+  {id: 14, name: 'Property 14', location: 'Location 14', owner: 'Owner 14'},
+  {id: 15, name: 'Property 15', location: 'Location 15', owner: 'Owner 15'},
+  {id: 16, name: 'Property 16', location: 'Location 16', owner: 'Owner 16'},
+  {id: 17, name: 'Property 17', location: 'Location 17', owner: 'Owner 17'},
+  {id: 18, name: 'Property 18', location: 'Location 18', owner: 'Owner 18'},
+  {id: 19, name: 'Property 19', location: 'Location 19', owner: 'Owner 19'},
+  {id: 20, name: 'Property 20', location: 'Location 20', owner: 'Owner 20'},
+  {id: 21, name: 'Property 21', location: 'Location 21', owner: 'Owner 21'},
+  {id: 22, name: 'Property 22', location: 'Location 22', owner: 'Owner 22'},
+  {id: 23, name: 'Property 23', location: 'Location 23', owner: 'Owner 23'},
+  {id: 24, name: 'Property 24', location: 'Location 24', owner: 'Owner 24'},
+]
+
 const ListingPage = () => {
-  const [properties, setProperties] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const propertiesPerPage = 9;
+  const totalItems = properties.length;
+  const totalPages = Math.ceil(totalItems / propertiesPerPage);
+  let [currentPage, setCurrentPage] = useState(1);
+  let startIndex = (currentPage - 1) * propertiesPerPage;
+  let endIndex = startIndex + propertiesPerPage;
+  const [displayedProperties, setDisplayedProperties] = useState(properties.slice(0, propertiesPerPage));
 
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top on component mount
   }, []);
-
-  /* useEffect(() => {                        // Fetch properties
-    const fetchData = async () => {
-      try {
-        const response = await fetch("/path/to/properties.json");
-        const data = await response.json();
-        setProperties(data);
-      } catch (error) {
-        
-        console.error("Error fetching properties:", error);
-      }
-    };
-
-    fetchData();
-  }, []); */   
-  
-  
-  const generateRandomProperty = () => ({
-    id: Math.floor(Math.random() * 1000),
-    name: `Property ${Math.floor(Math.random() * 100)}`,
-    location: `Location ${Math.floor(Math.random() * 100)}`,
-    owner: `Owner ${Math.floor(Math.random() * 100)}`,
-  });
-
-  useEffect(() => {
-    const fetchData = async () => {
-      // Generating 5 random properties for now
-      const randomProperties = Array.from({ length: 6 }, generateRandomProperty);
-      console.log(`NEW RANDOM PROPERTIES`, randomProperties);
-      setProperties(randomProperties);
-      setLoading(false); // Set loading to false after properties are fetched
-    };
-  
-    fetchData();
-  }, []);
-  
-
-  const propertiesPerPage = 9;
-  const totalItems = properties.length;
-  const totalPages = Math.ceil(totalItems / propertiesPerPage);
-
-  let [currentPage, setCurrentPage] = useState(1);
-
-  let startIndex = (currentPage - 1) * propertiesPerPage;
-  let endIndex = startIndex + propertiesPerPage;
-  const [displayedProperties, setDisplayedProperties] = useState(properties.slice(0, propertiesPerPage));
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -208,10 +193,6 @@ const ListingPage = () => {
           </div>
           <div className="flex flex-col font-manrope items-center justify-center md:px-10 sm:px-5 px-[120px] w-full">
             <div className="flex flex-col md:gap-10 gap-[60px] items-center justify-start max-w-[1200px] mx-auto w-full">
-            {loading ? (
-              // Render a loading indicator while properties are being fetched
-              <div>Loading...</div>
-              ) : (
                 <div className="flex flex-col items-start justify-start w-full">
                   <div className="md:gap-5 gap-6 grid sm:grid-cols-1 md:grid-cols-2 grid-cols-3 justify-center min-h-[auto] w-full">
                     {displayedProperties.map((props, index) => (
@@ -225,7 +206,6 @@ const ListingPage = () => {
                     ))}
                   </div>
                 </div>
-              )}
               <div className="flex sm:flex-col flex-row gap-5 items-center justify-between w-full">
               <div className="flex sm:flex-col flex-row gap-[5px] items-start justify-start w-auto">
                 {Array.from({ length: totalPages }, (_, ind) => (

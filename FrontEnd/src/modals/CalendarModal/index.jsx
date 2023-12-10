@@ -3,12 +3,11 @@ import { default as ModalProvider } from "react-modal";
 import { Button, Img, Input, Line, Text } from "components";
 import CalendarDay from "components/CalendarDay";
 
-const CalendarModal = (props) => {
+const CalendarModal = ({onDaysSelect, onDaysRemove, bookedDays, id, ...props}) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [startDate, setStartDate] = useState(null);
   const [finalDate, setFinalDate] = useState(null);
   const [hoveredDate, setHoveredDate] = useState(null);
-  const [bookedDays, setBookedDays] = useState([]);
   const [isBookedSelection, setIsBookedSelection] = useState(false);
   const [numberOfPeople, setNumberOfPeople] = useState(0);
 
@@ -56,8 +55,8 @@ const CalendarModal = (props) => {
   }
 
   const isSameDay = (date1, date2) => {
-    if (typeof date1 === 'number') {
-      date1 = new Date(currentYear, currentMonth, date1);
+    if (!(date1 instanceof Date) || !(date2 instanceof Date)) {
+      return false;
     }
   
     return (
@@ -66,6 +65,7 @@ const CalendarModal = (props) => {
       date1.getDate() === date2.getDate()
     );
   };
+  
 
   // Click event handlers
   const handleDateClick = (selectedDate) => {
@@ -85,9 +85,9 @@ const CalendarModal = (props) => {
       const isBookedSelection = selectedDays.some((day) =>
         bookedDays.some((bookedDate) => isSameDay(bookedDate.date, day))
       );
+      console.log("DAY VS DATE", selectedDate);
       setIsBookedSelection(isBookedSelection);
     } else {
-      console.log(`Selected range: ${startDate} to ${finalDate}`);
       setStartDate(null);
       setFinalDate(null);
     }
@@ -169,17 +169,15 @@ const CalendarModal = (props) => {
         const isAvailable = getAvailability(selectedDate) === 'Available';
         return !isAvailable;
       }).length > 0;
-
-
   
       if (!isAnyDateNotAvailable) {
-        console.log('Booking selected dates:', startDate, 'to', finalDate, 'for', numberOfPeople, 'people');
+        console.log('Booking selected dates:', startDay, 'to', endDay, 'for', numberOfPeople, 'people in apartment ', id);
         const newBookedDays = Array.from({ length: Math.abs(endDay - startDay) + 1 }, (_, index) => {
           const day = startDay < endDay ? startDay + index : startDay - index;
-          return {date: new Date(currentYear, currentMonth, day), numberOfPeople};
+          return {date: new Date(currentYear, currentMonth, day), numberOfPeople, id};
         });
-        setBookedDays((prevBookedDays) => [...prevBookedDays, ...newBookedDays]);
-        console.log(newBookedDays);
+        console.log('BOOKED NEW DATES:', newBookedDays);
+        onDaysSelect(newBookedDays);
       } else {
         console.log('Some selected dates are not available. Cannot book.');
       }
@@ -196,13 +194,8 @@ const CalendarModal = (props) => {
       );
   
       // Remove the unbooked days from the bookedDays state
-      const updatedBookedDays = bookedDays.filter((bookedDate) => {
-        const day = bookedDate.date.getDate();
-        return !unbookedDays.includes(day);
-      });
-  
-      setBookedDays(updatedBookedDays);
-      console.log('Unbooking selected dates:', startDate, 'to', finalDate);
+      onDaysRemove(unbookedDays);
+      console.log('Unbooking selected dates:', startDay, 'to', endDay, 'from apartment', id);
     }
   };
 
