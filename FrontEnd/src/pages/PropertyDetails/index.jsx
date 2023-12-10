@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Button, GoogleMap, Img, Input, List, Text } from "components";
-import LandingPageCard from "components/LandingPageCard";
 import LandingPageHeader from "components/LandingPageHeader";
 import CalendarModal from "modals/CalendarModal";
 
@@ -31,20 +30,20 @@ const PropertyDetailsPage = ({ match }) => {
                 <div className="flex flex-1 flex-col items-center justify-start w-full">
                   <Img
                     className="h-[550px] md:h-auto object-cover rounded-bl-[10px] rounded-br-[10px] w-full"
-                    src="images/img_rectangle5610.png"
+                    src="/images/img_rectangle5610.png"
                     alt="rectangle5610"
                   />
                 </div>
                 <div className="flex sm:flex-1 flex-col gap-6 h-[550px] md:h-auto items-start justify-start w-auto sm:w-full">
                   <Img
                     className="h-[263px] sm:h-auto object-cover rounded-bl-[10px] rounded-br-[10px] w-full"
-                    src="images/img_rectangle5611.png"
+                    src="/images/img_rectangle5611.png"
                     alt="rectangle5611"
                   />
                   <div className="h-[263px] relative w-96 sm:w-full">
                     <Img
                       className="h-[263px] m-auto object-cover rounded-[10px] w-full"
-                      src="images/img_rectangle5612.png"
+                      src="/images/img_rectangle5612.png"
                       alt="rectangle5612"
                     />
                     <Button
@@ -52,7 +51,7 @@ const PropertyDetailsPage = ({ match }) => {
                       leftIcon={
                         <Img
                           className="h-6 mb-px mr-1.5 bottom-[0] right-[2%] absolute"
-                          src="images/img_mail.svg"
+                          src="/images/img_mail.svg"
                           alt="mail"
                         />
                       }
@@ -294,27 +293,27 @@ const PropertyDetailsPage = ({ match }) => {
                           <div className="flex flex-row gap-1 items-start justify-start w-auto">
                             <Img
                               className="h-4 w-4"
-                              src="images/img_star.svg"
+                              src="/images/img_star.svg"
                               alt="star"
                             />
                             <Img
                               className="h-4 w-4"
-                              src="images/img_star.svg"
+                              src="/images/img_star.svg"
                               alt="star_One"
                             />
                             <Img
                               className="h-4 w-4"
-                              src="images/img_star.svg"
+                              src="/images/img_star.svg"
                               alt="star_Two"
                             />
                             <Img
                               className="h-4 w-4"
-                              src="images/img_star.svg"
+                              src="/images/img_star.svg"
                               alt="star_Three"
                             />
                             <Img
                               className="h-4 w-4"
-                              src="images/img_star_gray_600.svg"
+                              src="/images/img_star_gray_600.svg"
                               alt="star_Four"
                             />
                           </div>
@@ -326,30 +325,14 @@ const PropertyDetailsPage = ({ match }) => {
                           </Text>
                         </div>
                         <div className="flex flex-row gap-2.5 items-center justify-start w-full">
-                          <Img
-                            className="h-5 w-5"
-                            src="images/img_mail_gray_600.svg"
-                            alt="mail"
-                          />
                           <Text
                             className="text-base text-gray-600 w-auto"
                             size="txtManropeMedium16"
                           >
-                            bruno@relasto .com
+                            meh review
                           </Text>
                         </div>
                         <div className="flex flex-row gap-2.5 items-center justify-start w-full">
-                          <Img
-                            className="h-5 w-5"
-                            src="images/img_call.svg"
-                            alt="call"
-                          />
-                          <Text
-                            className="text-base text-gray-600 w-auto"
-                            size="txtManropeMedium16"
-                          >
-                            +65 0231 965 965
-                          </Text>
                         </div>
                       </div>
                     </div>
@@ -383,7 +366,7 @@ const PropertyDetailsPage = ({ match }) => {
                           prefix={
                             <Img
                               className="mt-auto mb-px h-6 mr-3.5"
-                              src="images/img_mail_gray_600_24x24.svg"
+                              src="/images/img_mail_gray_600_24x24.svg"
                               alt="mail"
                             />
                           }
@@ -397,7 +380,7 @@ const PropertyDetailsPage = ({ match }) => {
                           prefix={
                             <Img
                               className="mt-auto mb-px h-6 mr-3.5"
-                              src="images/img_call.svg"
+                              src="/images/img_call.svg"
                               alt="call"
                             />
                           }
@@ -410,7 +393,7 @@ const PropertyDetailsPage = ({ match }) => {
                           prefix={
                             <Img
                               className="mt-auto mb-px h-6 mr-3.5"
-                              src="images/img_calendar.svg"
+                              src="/images/img_calendar.svg"
                               alt="calendar"
                             />
                           }

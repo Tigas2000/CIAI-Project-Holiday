@@ -12,7 +12,6 @@ import {
 } from "components";
 import LandingPageCard from "components/LandingPageCard";
 import LandingPageHeader from "components/LandingPageHeader";
-import Property from "Objects/Property";
 
 
 const dropdownlargeOptionsList = [
@@ -33,6 +32,7 @@ const dropdownlargeOneOptionsList = [
 
 const ListingPage = () => {
   const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top on component mount
@@ -54,28 +54,6 @@ const ListingPage = () => {
   }, []); */   
   
   
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Generating 5 random properties for now
-        const randomProperties = Array.from({ length: 5 }, generateRandomProperty);
-        setProperties(randomProperties);
-      } catch (error) {
-        console.error("Error fetching properties:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const landingPageCardPropList = [
-    { image: "images/img_image_1.png", property: properties[0] },
-    { image: "images/img_image_2.png", property: properties[1] },
-    { image: "images/img_image_3.png", property: properties[2] },
-    { image: "images/img_image_4.png", property: properties[3] },
-    { image: "images/img_image_5.png", property: properties[4] },
-  ];
-
   const generateRandomProperty = () => ({
     id: Math.floor(Math.random() * 1000),
     name: `Property ${Math.floor(Math.random() * 100)}`,
@@ -83,22 +61,46 @@ const ListingPage = () => {
     owner: `Owner ${Math.floor(Math.random() * 100)}`,
   });
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Simulating a delay with setTimeout
+        setTimeout(() => {
+          // Generating 5 random properties for now
+          const randomProperties = Array.from({ length: 20 }, generateRandomProperty);
+          console.log(`NEW RANDOM PROPERTIES`, randomProperties);
+          setProperties(randomProperties);
+          setLoading(false); // Set loading to false after properties are fetched
+        }, 1000);
+      } catch (error) {
+        console.error("Error fetching properties:", error);
+        setLoading(false); // Handle loading state in case of an error
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
   const propertiesPerPage = 9;
-  const totalItems = landingPageCardPropList.length;
+  const totalItems = properties.length;
   const totalPages = Math.ceil(totalItems / propertiesPerPage);
 
   let [currentPage, setCurrentPage] = useState(1);
 
   let startIndex = (currentPage - 1) * propertiesPerPage;
   let endIndex = startIndex + propertiesPerPage;
-  const [displayedProperties, setDisplayedProperties] = useState(landingPageCardPropList.slice(0, propertiesPerPage));
+  const [displayedProperties, setDisplayedProperties] = useState(properties.slice(0, propertiesPerPage));
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
     startIndex = (page - 1) * propertiesPerPage;
     endIndex = startIndex + propertiesPerPage;
-    setDisplayedProperties(landingPageCardPropList.slice(startIndex, endIndex));
   };
+
+  useEffect(() => {
+    setDisplayedProperties(properties.slice(startIndex, endIndex));
+  }, [properties, startIndex, endIndex]);
 
   return (
     <>
@@ -214,18 +216,24 @@ const ListingPage = () => {
           </div>
           <div className="flex flex-col font-manrope items-center justify-center md:px-10 sm:px-5 px-[120px] w-full">
             <div className="flex flex-col md:gap-10 gap-[60px] items-center justify-start max-w-[1200px] mx-auto w-full">
-              <div className="flex flex-col items-start justify-start w-full">
-                <div className="md:gap-5 gap-6 grid sm:grid-cols-1 md:grid-cols-2 grid-cols-3 justify-center min-h-[auto] w-full">
-                  {displayedProperties.map((props, index) => (
-                    <React.Fragment key={`LandingPageCard${index}`}>
-                      <LandingPageCard
-                        className="flex flex-1 flex-col h-[512px] md:h-auto items-start justify-start w-full"
-                        {...props}
-                      />
-                    </React.Fragment>
-                  ))}
+            {loading ? (
+              // Render a loading indicator while properties are being fetched
+              <div>Loading...</div>
+              ) : (
+                <div className="flex flex-col items-start justify-start w-full">
+                  <div className="md:gap-5 gap-6 grid sm:grid-cols-1 md:grid-cols-2 grid-cols-3 justify-center min-h-[auto] w-full">
+                    {displayedProperties.map((props, index) => (
+                      <React.Fragment key={`LandingPageCard${index}`}>
+                        <LandingPageCard
+                          className="flex flex-1 flex-col h-[512px] md:h-auto items-start justify-start w-full"
+                          property={props}
+                          {...props}
+                        />
+                      </React.Fragment>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
               <div className="flex sm:flex-col flex-row gap-5 items-center justify-between w-full">
               <div className="flex sm:flex-col flex-row gap-[5px] items-start justify-start w-auto">
                 {Array.from({ length: totalPages }, (_, ind) => (
@@ -243,20 +251,6 @@ const ListingPage = () => {
                   </Button>
                 ))}
               </div>
-                <Button
-                  className="border border-bluegray-102 border-solid cursor-pointer flex items-center justify-center min-w-[134px] px-[17px] py-[13px] rounded-[10px]"
-                  rightIcon={
-                    <Img
-                      className="h-4 mt-px mb-[5px] ml-1"
-                      src="images/img_arrowright_gray_900.svg"
-                      alt="arrow_right"
-                    />
-                  }
-                >
-                  <div className="font-semibold text-base text-gray-900 text-left">
-                    Next Page
-                  </div>
-                </Button>
               </div>
             </div>
           </div>
