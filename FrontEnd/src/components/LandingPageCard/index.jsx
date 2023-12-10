@@ -7,7 +7,7 @@ const LandingPageCard = (props) => {
   const property = props?.property;
   
   console.log(`PROPERTY`, property);
-  console.log(`PROPERTY NAME`, property.name);
+  console.log(`PROPERTY NAME`, property?.name);
   return (
     <>
       <div className={props.className}>

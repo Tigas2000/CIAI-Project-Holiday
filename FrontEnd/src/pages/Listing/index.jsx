@@ -63,24 +63,16 @@ const ListingPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        // Simulating a delay with setTimeout
-        setTimeout(() => {
-          // Generating 5 random properties for now
-          const randomProperties = Array.from({ length: 20 }, generateRandomProperty);
-          console.log(`NEW RANDOM PROPERTIES`, randomProperties);
-          setProperties(randomProperties);
-          setLoading(false); // Set loading to false after properties are fetched
-        }, 1000);
-      } catch (error) {
-        console.error("Error fetching properties:", error);
-        setLoading(false); // Handle loading state in case of an error
-      }
+      // Generating 5 random properties for now
+      const randomProperties = Array.from({ length: 6 }, generateRandomProperty);
+      console.log(`NEW RANDOM PROPERTIES`, randomProperties);
+      setProperties(randomProperties);
+      setLoading(false); // Set loading to false after properties are fetched
     };
-
+  
     fetchData();
   }, []);
-
+  
 
   const propertiesPerPage = 9;
   const totalItems = properties.length;
