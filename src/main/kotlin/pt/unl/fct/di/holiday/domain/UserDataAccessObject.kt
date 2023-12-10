@@ -1,13 +1,14 @@
 package pt.unl.fct.di.holiday.domain
 
-import jakarta.persistence.*
 import org.hibernate.Hibernate
+import javax.persistence.*
 
 enum class RoleType {
     CLIENT, OWNER, MANAGER;
 }
 
 @Entity
+@Table(name = "USERS")
 data class UserDataAccessObject(
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Long,
@@ -37,6 +38,10 @@ data class UserDataAccessObject(
     }
 
     override fun hashCode(): Int = javaClass.hashCode()
+
+    fun verifyIfPassword(verifying: String): Boolean {
+        return password.equals(verifying)
+    }
 
     @Override
     fun getInfo(): String {

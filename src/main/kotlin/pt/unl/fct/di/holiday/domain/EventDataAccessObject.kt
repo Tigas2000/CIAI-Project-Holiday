@@ -1,7 +1,6 @@
 package pt.unl.fct.di.holiday.domain
 
-import jakarta.persistence.*
-import java.util.*
+import javax.persistence.*
 
 
 enum class EventType {
@@ -9,6 +8,7 @@ enum class EventType {
 }
 
 @Entity
+@Table(name = "EVENTS")
 class EventDataAccessObject(
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Long,
@@ -22,18 +22,20 @@ class EventDataAccessObject(
     var client: UserDataAccessObject,
 
     @Column(nullable = false)
-    var date: Date,
+    var date: Int,
 
     @Column(nullable = false)
-    var length: Int
+    var length: Int,
+
+    var review: String
 
 ){
-    constructor(type:EventType, property:PropertyDataAccessObject, client:UserDataAccessObject, date:Date, length:Int) :
-            this(0, type, property, client, date, length)
+    constructor(type:EventType, property:PropertyDataAccessObject, client:UserDataAccessObject, date:Int, length:Int) :
+            this(0, type, property, client, date, length, "")
 
     @Override
     fun getInfo(): String {
         return this::class.simpleName + "(id = $id , type = $type , property = ${property.name}, client = ${client.username}," +
-                "date - $date, length - $length days; )"
+                "date - $date, length - $length days, review - \"$review\"; )"
     }
 }

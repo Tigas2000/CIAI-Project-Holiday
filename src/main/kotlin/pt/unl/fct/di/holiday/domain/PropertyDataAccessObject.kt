@@ -1,9 +1,10 @@
 package pt.unl.fct.di.holiday.domain
 
-import jakarta.persistence.*
+import javax.persistence.*
 
 
 @Entity
+@Table(name = "PROPERTIES")
 data class PropertyDataAccessObject(
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Long,

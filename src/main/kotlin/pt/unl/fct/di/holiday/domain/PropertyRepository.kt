@@ -9,4 +9,6 @@ interface PropertyRepository : CrudRepository<PropertyDataAccessObject, String> 
 
     fun findByName(name: String): Optional<PropertyDataAccessObject>
 
+    fun findById(id: Long): Optional<PropertyDataAccessObject>
+
 }
