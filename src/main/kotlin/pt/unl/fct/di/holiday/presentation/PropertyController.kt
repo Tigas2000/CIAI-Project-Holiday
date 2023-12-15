@@ -1,5 +1,6 @@
 package pt.unl.fct.di.holiday.presentation
 
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import pt.unl.fct.di.holiday.domain.PropertyDataAccessObject
@@ -23,6 +24,14 @@ class PropertyController(val propertyService: PropertyService, val users: UserSe
         }
         else {
             throw Exception("Property with name $property isn't in the system.")
+        }
+    }
+
+    override fun getProperty(@PathVariable propertyId: Long): PropertyDataTransferObject {
+        if (propertyService.hasPropertyId(propertyId)) {
+            return PropertyDataTransferObject(propertyService.getPropertyById(propertyId))
+        } else {
+            throw Exception("Property with ID $propertyId isn't in the system.")
         }
     }
 

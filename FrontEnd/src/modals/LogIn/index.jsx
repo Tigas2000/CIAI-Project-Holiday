@@ -29,13 +29,17 @@ const LogInModal = (props) => {
       console.log("Username:", username);
       console.log("Password:", password);
 
-      const loginEndpoint = `http://localhost:8080/users/login?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
+      const loginEndpoint = `http://localhost:8080/users/login?username=${username}&password=${password}`;
       const response = await fetch(loginEndpoint, {
         method: "GET",
         mode: "cors",
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+      }),
       });
 
       if (response.ok) {

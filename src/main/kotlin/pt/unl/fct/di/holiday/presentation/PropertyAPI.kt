@@ -13,8 +13,13 @@ interface PropertyAPI {
 
     @ApiOperation("Get info on a property")
     @ApiResponses(value = [ApiResponse(code = 200, message = "Successfully retrieved property")])
-    @GetMapping("/property/{property}")
+    @GetMapping("/propertyByName/{property}")
     fun getProperty(@PathVariable property: String): PropertyDataTransferObject
+
+    @ApiOperation("Get info on a property by ID")
+    @ApiResponses(value = [ApiResponse(code = 200, message = "Successfully retrieved property")])
+    @GetMapping("/property/{propertyId}")
+    fun getProperty(@PathVariable propertyId: Long): PropertyDataTransferObject
 
     @ApiOperation("Get the list of all properties")
     @ApiResponses(value = [ApiResponse(code = 200, message = "Successfully retrieved list of properties")])

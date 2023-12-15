@@ -124,12 +124,6 @@ const LandingPagePage = () => {
               >
                 As part of the IADI course.
               </Text>
-              <Text
-                className="leading-[180.00%] max-w-[600px] md:max-w-full text-center text-gray-900 text-lg"
-                size="txtManropeRegular18"
-              >
-                nomes e nrs
-              </Text>
             </div>
           </div>
         </div>
