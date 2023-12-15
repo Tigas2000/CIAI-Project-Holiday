@@ -39,11 +39,7 @@ const LandingPagePage = () => {
 
     fetchPropertyList();
   }, []);
-
-  if (!propertyList || propertyList.length === 0) {
-    return <div>Loading...</div>;
-  }
-
+  
   return (
     <>
       <div className="bg-white-A700 flex flex-col font-markoone sm:gap-10 md:gap-10 gap-[100px] items-center justify-start mx-auto w-auto sm:w-full md:w-full">

@@ -18,6 +18,36 @@ const LogInModal = (props) => {
     closeCreateAccountModal();
   }, []);
 
+  
+
+  let [username, setUsername] = useState('');
+  let [password, setPassword] = useState('');
+
+  const handleLogin = async () => {
+    try {
+      
+      console.log("Username:", username);
+      console.log("Password:", password);
+
+      const loginEndpoint = `http://localhost:8080/users/login?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
+      const response = await fetch(loginEndpoint, {
+        method: "GET",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        console.log("Login successful");
+      } else {
+        console.error("Login failed");
+      }
+    } catch (error) {
+      console.error("Error during Login:", error);
+    }
+  };
+
   return (
     <ModalProvider
       appElement={document.getElementById("root")}
@@ -45,39 +75,28 @@ const LogInModal = (props) => {
                   />
                 </div>
                 <div className="flex flex-col gap-3 items-start justify-start w-full">
-                  <Input
+                  <input
                     name="textfieldlarge"
-                    placeholder="user / email address"
-                    className="font-semibold p-0 placeholder:text-gray-600 sm:pr-5 text-gray-600 text-left text-lg w-full"
-                    wrapClassName="bg-white-A700 border border-bluegray-100 border-solid flex pl-4 pr-[35px] py-[17px] rounded-[10px] w-full"
-                    type="email"
-                    prefix={
-                      <Img
-                        className="mt-auto mb-px h-6 mr-3.5"
-                        src="/images/img_user.svg"
-                        alt="user"
-                      />
-                    }
-                  ></Input>
-                  <Input
+                    placeholder="username"
+                    className="font-semibold p-0 placeholder:text-gray-600 sm:pr-5 text-gray-600 text-left text-lg w-full bg-white-A700 border border-bluegray-100 border-solid flex pl-4 pr-[35px] py-[17px] rounded-[10px]"
+                    type="text"
+                    onChange={e => setUsername(e?.target?.value)}
+                    value={username}
+                  ></input>
+                  <input
                     name="textfieldlarge_One"
                     placeholder="Password"
-                    className="font-semibold p-0 placeholder:text-gray-600 text-gray-600 text-left text-lg w-full"
-                    wrapClassName="bg-white-A700 border border-bluegray-100 border-solid flex px-4 py-[17px] rounded-[10px] w-full"
+                    className="font-semibold p-0 placeholder:text-gray-600 sm:pr-5 text-gray-600 text-left text-lg w-full bg-white-A700 border border-bluegray-100 border-solid flex pl-4 pr-[35px] py-[17px] rounded-[10px]"
                     type="password"
-                    prefix={
-                      <Img
-                        className="mt-auto mb-px h-6 mr-3.5"
-                        src="/images/img_user_gray_600.svg"
-                        alt="user"
-                      />
-                    }
-                  ></Input>
+                    value={password}
+                    onChange={e => setPassword(e?.target?.value)}
+                  ></input>
                 </div>
               </div>
             </div>
             <div className="flex flex-col gap-[18px] items-start justify-start w-full">
               <Button
+              onClick={handleLogin}
               className="bg-gray-900 cursor-pointer font-bold py-4 rounded-[10px] text-center text-lg text-white-A700 w-full">
                 Log in
               </Button>

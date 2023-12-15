@@ -151,10 +151,6 @@ const ListingPage = () => {
     fetchPropertyList();
   }, []);
 
-  if (!propertyList || propertyList.length === 0) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <>
       <div className="bg-gray-51 flex flex-col font-markoone sm:gap-10 md:gap-10 gap-[100px] items-start justify-start mx-auto w-auto sm:w-full md:w-full">

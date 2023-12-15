@@ -72,13 +72,6 @@ const CreateAccountModal = (props) => {
                       type="text"
                       onChange={e => setUsername(e?.target?.value)}
                       value={username}
-                      prefix={
-                        <Img
-                          className="mt-auto mb-px h-6 mr-3.5"
-                          src="/images/img_user.svg"
-                          alt="user"
-                        />
-                      }
                     ></input>
                     <input
                       id="password"
@@ -88,13 +81,6 @@ const CreateAccountModal = (props) => {
                       type="password"
                       value={password}
                       onChange={e => setPassword(e?.target?.value)}
-                      prefix={
-                        <Img
-                          className="mt-auto mb-px h-6 mr-3.5"
-                          src="/images/img_user_gray_600.svg"
-                          alt="user"
-                        />
-                      }
                     ></input>
                   </div>
                   <div className="flex flex-1 flex-col gap-5 items-start justify-start w-full">
